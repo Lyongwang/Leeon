@@ -1,0 +1,27 @@
+ext {
+    STORE_PASSWORD='bitauto2011'
+    KEY_ALIAS='autoeasy'
+    KEY_PASSWORD='bitauto2011'
+    EXCLUDE={
+        exclude group: 'com.android.support'
+    }
+}
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    mutiDexEnable true
+    resConfigs "zh"
+
+    ndk {
+        abiFilters "armeabi"//, "armeabi-v7a"//, "x86"//, "x86_64"
+    }
+
+
+}
