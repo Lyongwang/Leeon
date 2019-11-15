@@ -1,3 +1,4 @@
+language: java
 name: Email CI
 sudo: required
 
