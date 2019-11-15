@@ -29,7 +29,9 @@ public class BundleManifestParser {
         }
 
         for (String key : appInfo.metaData.keySet()){
-            if ()
+//            if ()
         }
+
+        return null;
     }
 }
