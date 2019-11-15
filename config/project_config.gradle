@@ -4,6 +4,7 @@ ext {
     KEY_PASSWORD='bitauto2011'
     EXCLUDE={
         exclude group: 'com.android.support'
+
     }
 }
 
