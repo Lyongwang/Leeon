@@ -1,6 +1,5 @@
+sudo: false
 language: java
-name: Email CI
-sudo: required
 
 install:
     - echo "install sth here"
