@@ -1,22 +1,37 @@
-sudo: false
-language: java
+image: openjdk:8-jdk
 
-## 一些基础环境、条件可在此进行
+#variables:
+#  ANDROID_COMPILE_SDK: "28"
+#  ANDROID_BUILD_TOOLS: "28.0.2"
+#  ANDROID_SDK_TOOLS:   "4333796"
+
 before_script:
-  - echo "before script"
-install: true
-## 正式脚本，这里执行一些常见的linux命令
-script:
-  - echo "hello world"
-  - pwd
-  - ls -l
-  - uname -a
-  - gcc -v
-## 脚本完成后的操作，如将服务部署远程主机
-after_script:
-    - echo "after script"
-    - echo "pwd:" ${PASSWORD}
-## 环境变量，注意，这是脚本内的环境变量
-env:
-  global:
-  - PASSWORD: lyw.123
+  - apt-get --quiet update --yes
+  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
+  - unzip -d android-sdk-linux android-sdk.zip
+  - echo y | android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
+  - echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" >/dev/null
+  - echo y | android-sdk-linux/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
+  - export ANDROID_HOME=$PWD/android-sdk-linux
+  - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
+  - chmod +x ./gradlew
+  # temporarily disable checking for EPIPE error and use yes to accept all licenses
+  - set +o pipefail
+  - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
+  - set -o pipefail
+
+stages:
+  - build
+
+assembleDebug:
+  stage: build
+  only:
+    - master
+  script:
+    - ./gradlew assembleDebug
+    - curl -F "file=@app/build/outputs/apk/debug/app-debug.apk" -F "uKey=dc9ee5802d3cb67379c8c9bc94b1c2f6" -F "_api_key=fb8927fec33d8850f83e10bc2e988127" https://qiniu-storage.pgyer.com/apiv1/app/upload
+#    - curl "钉钉WebHook地址" -XPOST -H 'content-type:application/json' -d '{"msgtype":"text","text":{"content":"@135xxxxxxx@135xxxxxxx@135xxxxxxx【xxxx】打包完成，下载地址：https://www.pgyer.com/xxxx"},"at":{"atMobiles":["135xxxxxxx","135xxxxxxx","135xxxxxxx"],"isAtAll":false}}'
+  artifacts:
+    paths:
+      - app/build/outputs/apk/debug/app-debug.apk
