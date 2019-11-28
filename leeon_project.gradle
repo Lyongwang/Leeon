@@ -1,9 +1,28 @@
 android {
+    signingConfigs {
+        release {
+            storeFile file(rootProject.rootDir.absolutePath+"/leeonkey")
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
+
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false    //发布应用之前要确保关闭debug属性,即false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //混淆文件配置
+            signingConfig signingConfigs.release
+        }
     }
 }

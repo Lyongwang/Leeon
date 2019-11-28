@@ -1,13 +1,36 @@
-language: node_js
-sudo: required
-node_js:
-  - 8.11.3
-branch: master
-cache:
-  directories:
-    - node_modules
-before_install:
-  - export TZ='Asia/Shanghai'  # 设置时区
+# .travis.yml 文件
+
+# 声明构建语言环境
+language: android
+
+#开启基于容器的 Travis CI 任务，让编译效率更高
+sudo: false
+
+android:        # 配置信息
+  components:
+    # 你可能需要修改下面两项的版本
+    - build-tools-28.0.0
+    - android-28
+    # Android Support Repository
+    - extra-android-m2repository
+    # Support Library
+    - extra-android-support
 script:
-  - ./deploy.sh
-#  //以上是基础配置，还可以支持ssh，git等
+  # 生成 APK
+  - ./gradlew assembleRelease
+
+# 部署
+deploy:
+  # 部署到GitHub Release。
+  # 除此之外，Travis CI还支持发布到fir.im、AWS、Google App Engine等
+  provider: releases
+  # Github oauth token
+  api_key: "0873834c42101bf44c7c09fffe9e74a694fc6d94"
+  # 部署文件路径；对于Android就部署生成的 apk 文件
+  file: "FILE TO UPLOAD"
+  # 避免 Travis CI在部署之前清空生成的APK文件
+  skip_cleanup: true
+  # 发布时机
+  on:
+    # tags设置为true表示只有在有tag的情况下才部署
+    tags: true
