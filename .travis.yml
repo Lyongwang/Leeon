@@ -10,11 +10,13 @@ script:
 - "./gradlew assembleRelease"
 deploy:
   provider: releases
-  api_key: '0873834c42101bf44c7c09fffe9e74a694fc6d94'
-  file: FILE TO UPLOAD
+  api_key:
+    secure: 0873834c42101bf44c7c09fffe9e74a694fc6d94
+  file: app/build/outputs/apk/app-release.apk
   skip_cleanup: true
   on:
     tags: true
+    all_branches: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_664d5124dd05_key -iv $encrypted_664d5124dd05_iv
   -in leeonKey.enc -out leeonKey -d
