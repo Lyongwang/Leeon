@@ -18,5 +18,4 @@ deploy:
     tags: true
     all_branches: true
 before_install:
-- openssl aes-256-cbc -K $encrypted_664d5124dd05_key -iv $encrypted_664d5124dd05_iv
-  -in leeonKey.enc -out leeonKey -d
+  - openssl aes-256-cbc -K $encrypted_664d5124dd05_key -iv $encrypted_664d5124dd05_iv -in leeonKey.enc -out leeonKey -d
