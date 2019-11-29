@@ -1,7 +1,7 @@
 android {
     signingConfigs {
         release {
-            storeFile file("/leeonkey")
+            storeFile file(rootProject.rootDir.absolutePath + "/leeonkey.jks")
             storePassword project.hasProperty("KEYSTORE_PASS") ? KEYSTORE_PASS : System.getenv("KEYSTORE_PASS")
             keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
             keyPassword project.hasProperty("ALIAS_PASS") ? ALIAS_PASS : System.getenv("ALIAS_PASS")

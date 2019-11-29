@@ -6,5 +6,5 @@
 /build
 /captures
 .externalNativeBuild
-leeonkey
+leeonkey.jks
 gradle.properties
