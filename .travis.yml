@@ -18,9 +18,6 @@ before_script:
 - chmod +x gradlew
 script:
 - "./gradlew assembleRelease"
-- true:
-    tags: true
-    all_branches: true
 before_install:
 - openssl aes-256-cbc -K $encrypted_664d5124dd05_key -iv $encrypted_664d5124dd05_iv
   -in leeonkey.jks.enc -out leeonkey.jks -d
