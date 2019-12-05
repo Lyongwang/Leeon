@@ -21,7 +21,7 @@ script:
 before_install:
 - openssl aes-256-cbc -K $encrypted_664d5124dd05_key -iv $encrypted_664d5124dd05_iv -in leeonkey.jks.enc -out leeonkey.jks -d
 # 添加蒲公英上传脚本
-- cd ${TRAVIS_BUILD_DIR}
+- cd $TRAVIS_BUILD_DIR
 - wget -c https://raw.githubusercontent.com/Pgyer/TravisFile/master/pgyer_upload.sh -O pgyer_upload.sh
 - chmod +x pgyer_upload.sh
 before_deploy:
