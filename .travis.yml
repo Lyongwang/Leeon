@@ -15,6 +15,7 @@ directories:
 - "$HOME/.gradle/wrapper/"
 - "$HOME/.android/build-cache"
 before_script:
+- ls
 - chmod +x gradlew
 script:
 - "./gradlew assembleRelease"
