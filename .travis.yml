@@ -15,9 +15,7 @@ directories:
 - "$HOME/.gradle/wrapper/"
 - "$HOME/.android/build-cache"
 before_script:
-- cd $HOME
 - pwd
-- ls
 - chmod +x gradlew
 script:
 - "./gradlew assembleRelease"
@@ -27,6 +25,7 @@ before_install:
 - cd $TRAVIS_BUILD_DIR
 - wget -c https://raw.githubusercontent.com/Pgyer/TravisFile/master/pgyer_upload.sh -O pgyer_upload.sh
 - chmod +x pgyer_upload.sh
+- cd ..
 before_deploy:
   - ls app/build/outputs/apk/release/
 deploy:
