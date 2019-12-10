@@ -25,9 +25,11 @@ before_install:
 - cd $TRAVIS_BUILD_DIR
 - wget -c https://raw.githubusercontent.com/Pgyer/TravisFile/master/pgyer_upload.sh -O pgyer_upload.sh
 - chmod +x pgyer_upload.sh
+- ls
 - cd ..
 before_deploy:
   - ls app/build/outputs/apk/release/
+  - ls $TRAVIS_BUILD_DIR
 deploy:
   provider: releases
   api_key:
@@ -40,4 +42,5 @@ deploy:
 # 在apk上传到GitHub后，使用蒲公英的上传脚本将apk上传到蒲公英
 after_deploy:
   - set -e
+  - ls $TRAVIS_BUILD_DIR
   - $TRAVIS_BUILD_DIR/pgyer_upload.sh "${TRAVIS_BUILD_DIR}/app/build/outputs/apk/release/app-release.apk" $PGYER_API_KEY
