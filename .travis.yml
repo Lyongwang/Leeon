@@ -43,4 +43,4 @@ deploy:
 after_deploy:
   - set -e
   - ls $TRAVIS_BUILD_DIR
-  - $TRAVIS_BUILD_DIR/pgyer_upload.sh "${TRAVIS_BUILD_DIR}/app/build/outputs/apk/release/app-release.apk" $PGYER_API_KEY
+  - $TRAVIS_BUILD_DIR/pgyer_upload.sh "app/build/outputs/apk/release/app-release.apk" $PGYER_API_KEY
