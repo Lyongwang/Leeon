@@ -3,6 +3,7 @@ package com.github.common.base;
 /**
  * Created by Lyongwang on 2019-11-11 15: 35.
  * <p>
+ * App信息类(包含application debug状态等信息)
  * Email: liyongwang@yiche.com
  */
 public class AppInfo {

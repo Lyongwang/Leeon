@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply from: '../leeon_project.gradle'
-apply from: '../support_dependencies.gradle'
+apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/leeon_project.gradle'
+apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/support_dependencies.gradle'
 
 android {
     defaultConfig {
