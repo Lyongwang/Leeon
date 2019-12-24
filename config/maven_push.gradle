@@ -2,7 +2,7 @@ apply plugin: 'maven'
 uploadArchives{
     repositories.mavenDeployer{
         repository(url:LOCAL_REPO_URL)
-        pom.groupIdd = GROUP
+        pom.groupId = GROUP
         pom.artifactId = POM_ARTIFACT_ID
         pom.version = VERSION
     }
