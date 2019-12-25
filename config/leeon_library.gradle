@@ -1,5 +1,14 @@
-apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/support_dependencies.gradle'
+apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_dep.gradle'
 apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
 apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/maven_push.gradle'
 
-
+dependencies {
+    def support = DEP.SUPPORT.value()
+    support.each {
+        if (it instanceof Map) {
+            api it.values()
+        } else {
+            api it
+        }
+    }
+}
