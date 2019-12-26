@@ -49,7 +49,7 @@ private def getShortCommitId() {
 private def checkGitCommit() {
     def status = "git status".execute().text.trim()
     logger.error(status)
-    return !status.contains("no changes added to commit")
+    return status.contains("nothing to commit")
 }
 
 /**
