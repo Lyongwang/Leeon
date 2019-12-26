@@ -53,7 +53,7 @@ private def checkGitCommit() {
 }
 
 /**
- * 检查当前分支是否与服务端develop分支同步
+ * 检查当前分支是否与origin/master分支同步
  * @return
  */
 private def checkGitSync(){
