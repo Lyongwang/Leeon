@@ -6,7 +6,7 @@ dependencies {
     def support = DEP.SUPPORT.value()
     support.each {
         if (it instanceof Map) {
-            api it.values()
+            api it.value()
         } else {
             api it
         }
