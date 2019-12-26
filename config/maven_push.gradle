@@ -1,13 +1,19 @@
 apply plugin: 'maven'
-ext{
-    BUILD_VERSION='' // 上传版本号
+ext {
+    BUILD_VERSION = '' // 上传版本号
     timeFormat = '' // 时间戳 yyyyMMddHHmm
 
-    GROUP='com.leeon' // MAVEN group
-    LOCAL_REPO_URL='file:///Users/lxiansheng/github/maven/' // 这里 指定生成的Maven路径
+    GROUP = 'com.leeon' // MAVEN group
+    LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/' // 这里 指定生成的Maven路径
 }
 uploadArchives {
-    doFirst{
+    doFirst {
+        if (!checkGitCommit()) {
+            throw new RuntimeException("please commit first!")
+        }
+        if (!checkGitSync()){
+            throw new RuntimeException("please sync with remote first!")
+        }
         BUILD_VERSION = new StringBuilder().append("v_").append(getTime()).append("_").append(getShortCommitId())
         repositories.mavenDeployer {
             repository(url: LOCAL_REPO_URL)
@@ -16,6 +22,7 @@ uploadArchives {
             pom.version = BUILD_VERSION
         }
         logger.error(GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION)
+
     }
 }
 
@@ -31,7 +38,29 @@ private def getTime() {
  * 获取最git近一次的commitId
  * @return
  */
-private def getShortCommitId(){
+private def getShortCommitId() {
     return "git rev-parse --short HEAD".execute().text.trim()
+}
+
+/**
+ * 检查是否有未提交的代码
+ * @return
+ */
+private def checkGitCommit() {
+    def status = "git status".execute().text.trim()
+    logger.error(status)
+    return !status.contains("no changes added to commit")
+}
+
+/**
+ * 检查当前分支是否与服务端develop分支同步
+ * @return
+ */
+private def checkGitSync(){
+    def currBranch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+    def sync = "git diff --stat $currBranch origin/master".execute().text.trim()
+    logger.error(sync)
+    return sync.isEmpty()
+
 }
 
