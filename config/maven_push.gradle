@@ -1,9 +1,37 @@
 apply plugin: 'maven'
+ext{
+    BUILD_VERSION='' // 上传版本号
+    timeFormat = '' // 时间戳 yyyyMMddHHmm
+
+    GROUP='com.leeon' // MAVEN group
+    LOCAL_REPO_URL='file:///Users/lxiansheng/github/maven/' // 这里 指定生成的Maven路径
+}
 uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: LOCAL_REPO_URL)
-        pom.groupId = GROUP
-        pom.artifactId = POM_ARTIFACT_ID
-        pom.version = VERSION
+    doFirst{
+        BUILD_VERSION = new StringBuilder().append("v_").append(getTime()).append("_").append(getShortCommitId())
+        repositories.mavenDeployer {
+            repository(url: LOCAL_REPO_URL)
+            pom.groupId = GROUP
+            pom.artifactId = POM_ARTIFACT_ID
+            pom.version = BUILD_VERSION
+        }
+        logger.error(GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION)
     }
 }
+
+/**
+ * 获取当前时间戳
+ * @return
+ */
+private def getTime() {
+    return new Date().format("yyyyMMddHHmm").toString()
+}
+
+/**
+ * 获取最git近一次的commitId
+ * @return
+ */
+private def getShortCommitId(){
+    return "git rev-parse --short HEAD".execute().text.trim()
+}
+

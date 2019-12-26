@@ -1,4 +1,5 @@
-apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
+apply from: '../config/base_config.gradle'
 android {
     signingConfigs {
         release {

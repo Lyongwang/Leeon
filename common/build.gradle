@@ -1,5 +1,12 @@
 apply plugin: 'com.android.library'
-apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_library.gradle'
+
+ext {
+
+    POM_ARTIFACT_ID = 'common'
+}
+
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_library.gradle'
+apply from: '../config/leeon_library.gradle'
 
 android {
     defaultConfig {
