@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_app.gradle'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_dep.gradle'
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/business_dep.gradle'
 apply from: '../config/leeon_app.gradle'
 apply from: '../config/leeon_dep.gradle'
+apply from: '../config/business_dep.gradle'
 
 android {
     defaultConfig {
@@ -18,5 +20,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    implementation project (':common')
+    implementation DEP.common
 }
