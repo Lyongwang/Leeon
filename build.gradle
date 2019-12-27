@@ -3,6 +3,7 @@ buildscript {
     repositories {
         maven { url 'file:///Users/lxiansheng/github/maven/release'}
         maven { url 'file:///Users/lxiansheng/github/maven/snapshot'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://jitpack.io" }
         google()
         jcenter()
@@ -20,6 +21,7 @@ allprojects {
     repositories {
         maven { url 'file:///Users/lxiansheng/github/maven/release'}
         maven { url 'file:///Users/lxiansheng/github/maven/snapshot'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://jitpack.io" }
         google()
         jcenter()

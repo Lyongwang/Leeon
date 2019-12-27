@@ -1,3 +1,5 @@
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/git_commit.gradle'
+apply from: '../config/git_commit.gradle'
 // 上传到对应的maven仓库
 apply plugin: 'maven'
 ext {
@@ -47,6 +49,9 @@ task addReleaseParams {
  */
 task uploadRelease(dependsOn: [addReleaseParams, uploadArchives]) {
     group 'upload'
+    doLast{
+        println("data: " + getBusinessDepData)
+    }
 //    doLast {
 //        println("pwd: " + "pwd".execute().text.trim())
 //        exec {

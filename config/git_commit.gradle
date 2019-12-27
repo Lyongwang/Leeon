@@ -1,0 +1,51 @@
+import okhttp3.*
+import groovy.json.JsonSlurper
+
+import java.util.concurrent.TimeUnit
+
+buildscript {
+    repositories {
+        maven() { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+    dependencies {
+        //https://github.com/square/okhttp
+        classpath "com.squareup.okhttp3:okhttp:4.2.2"
+    }
+}
+
+ext {
+
+    mClient = init_client()
+    gh_token = '9fe6c1f3b13f7e3da20baf1449da50108ccd722b'
+    business_dep_url = 'https://api.github.com/repos/Lyongwang/Leeon/contents/config/business_dep.gradle'
+    getBusinessDepData =  getBusinessDepData()
+}
+
+
+def init_client() {
+    return new OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS).addNetworkInterceptor(new Interceptor() {
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+            Request build = chain.request().newBuilder()
+                    .addHeader("token", gh_token).build()
+            return chain.proceed(build)
+        }
+    }).build()
+}
+
+def getBusinessDepData(){
+    def request = new Request.Builder().url(business_dep_url).get().build()
+    def response = mClient.newCall(request).execute()
+    if (response.isSuccessful()){
+        def jsonSlurper = new JsonSlurper()
+        def map = jsonSlurper.parseText(response.body().string())
+        println("map: " + map['content'] instanceof String)
+        println("decode: " + new String(Base64.getUrlDecoder().decode(map['content'].replace('\n','')), "UTF-8"))
+        return map['content']
+    } else {
+        throw new RuntimeException(response.code() + " " + response.body().string())
+    }
+}
