@@ -47,11 +47,8 @@ task addReleaseParams {
 /**
  * 上传正式版本
  */
-task uploadRelease(dependsOn: [addReleaseParams, uploadArchives]) {
+task uploadRelease(dependsOn: [addReleaseParams, uploadArchives, getBusinessDepData]) {
     group 'upload'
-    doLast{
-        println("data: " + getBusinessDepData)
-    }
 //    doLast {
 //        println("pwd: " + "pwd".execute().text.trim())
 //        exec {

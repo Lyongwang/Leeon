@@ -1,7 +1,11 @@
 import okhttp3.*
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 import java.util.concurrent.TimeUnit
+
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/business_dep.gradle'
+//apply from: '../config/business_dep.gradle'
 
 buildscript {
     repositories {
@@ -14,11 +18,9 @@ buildscript {
 }
 
 ext {
-
     mClient = init_client()
     gh_token = '9fe6c1f3b13f7e3da20baf1449da50108ccd722b'
     business_dep_url = 'https://api.github.com/repos/Lyongwang/Leeon/contents/config/business_dep.gradle'
-    getBusinessDepData =  getBusinessDepData()
 }
 
 
@@ -36,16 +38,45 @@ def init_client() {
     }).build()
 }
 
-def getBusinessDepData(){
-    def request = new Request.Builder().url(business_dep_url).get().build()
-    def response = mClient.newCall(request).execute()
-    if (response.isSuccessful()){
-        def jsonSlurper = new JsonSlurper()
-        def map = jsonSlurper.parseText(response.body().string())
-        println("map: " + map['content'] instanceof String)
-        println("decode: " + new String(Base64.getUrlDecoder().decode(map['content'].replace('\n','')), "UTF-8"))
-        return map['content']
-    } else {
-        throw new RuntimeException(response.code() + " " + response.body().string())
+class UpdateData{
+    String message = "update version"
+    String content
+    String sha
+}
+
+task getBusinessDepData {
+    doLast{
+//        def content
+        def sha
+        def request = new Request.Builder().url(business_dep_url).get().build()
+        def response = mClient.newCall(request).execute()
+        if (response.isSuccessful()) {
+            def jsonSlurper = new JsonSlurper()
+            def map = jsonSlurper.parseText(response.body().string())
+            sha = map['sha']
+            if (sha == null || "".equals(sha)){
+                throw new RuntimeException("sha is null please retry it")
+            }
+//            content = new String(Base64.getUrlDecoder().decode(map['content'].replace('\n', '')), "UTF-8")
+        } else {
+            throw new RuntimeException(response.code() + " " + response.body().string())
+        }
+
+        byte[] bytes = "ext {\n" +
+                "    DEP = [\n" +
+                "            common:'com.leeon:common:v_20191227ddd_4757c52'\n" +
+                "    ]\n" +
+                "}".getBytes("UTF-8")
+        def updateContent = new String(Base64.getUrlEncoder().encode(bytes), "UTF-8")
+        def updateData = new UpdateData()
+        updateData.sha = sha
+        updateData.content = updateContent
+        def json = new JsonOutput().toJson(updateData)
+        println("json:" + json)
+        def requestBody = RequestBody.create(MediaType.parse("application/json"), json)
+
+        def uploadReq = new Request.Builder().url(business_dep_url).put(requestBody).build()
+        def uploadRes = mClient.newCall(uploadReq).execute()
+        println("response : " + uploadRes.code() + uploadRes.body().string())
     }
 }
