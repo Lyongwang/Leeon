@@ -1,5 +1,5 @@
 ext {
     DEP = [
-            common:'com.leeon:common:v_201912271144_4757c52'
+            common:'com.leeon:common:v_20191227ddd_4757c52'
     ]
-}
+[125]
