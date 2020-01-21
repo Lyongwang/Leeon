@@ -16,12 +16,12 @@ ext {
  */
 uploadArchives {
     doFirst {
-//        if (!checkGitCommit()) {
-//            throw new RuntimeException("please commit first!")
-//        }
-//        if (!checkGitSync()) {
-//            throw new RuntimeException("please sync with remote first!")
-//        }
+        if (!checkGitCommit()) {
+            throw new RuntimeException("please commit first!")
+        }
+        if (!checkGitSync()) {
+            throw new RuntimeException("please sync with remote first!")
+        }
         println "isRelease : " + isRelease
         BUILD_VERSION = new StringBuilder().append("v_").append(getTime())
                 .append("_").append(getShortCommitId())
@@ -30,16 +30,25 @@ uploadArchives {
             pom.groupId = GROUP
             pom.artifactId = POM_ARTIFACT_ID
             pom.version = BUILD_VERSION
-            repository(url: RELEASE_LOCAL_REPO_URL)
-            snapshotRepository(url: SNAPSHOT_LOCAL_REPO_URL)
+            repository(url: RELEASE_LOCAL_REPO_URL)/*{
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }*/
+            snapshotRepository(url: SNAPSHOT_LOCAL_REPO_URL)/*{
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }*/
         }
-        logger.error(GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION)
+        def depVersion = GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION
+        logger.error(depVersion)
+        exec{
+            commandLine 'sh', '-c', "./../gradlew :${project.name}:getBusinessDepData -Dversion=${depVersion} -Dpomid=${POM_ARTIFACT_ID}"
+        }
     }
 }
 
+
 task addReleaseParams {
     doFirst{
-        println("addReleaseParams: ")
+        println("addReleaseParams")
         isRelease = true
     }
 }
@@ -47,7 +56,7 @@ task addReleaseParams {
 /**
  * 上传正式版本
  */
-task uploadRelease(dependsOn: [addReleaseParams, uploadArchives, getBusinessDepData]) {
+task uploadRelease(dependsOn: [addReleaseParams, uploadArchives]) {
     group 'upload'
 //    doLast {
 //        println("pwd: " + "pwd".execute().text.trim())

@@ -1,5 +1,5 @@
 ext {
-    DEP = [
-            common:'com.leeon:common:v_20191227111_4757c52'
+    LIB = [
+            common:'com.leeon:common:v_201912271144_4757c52'
             ,user:'com.leeon:user:v_20191227111_4757c52'
     ]

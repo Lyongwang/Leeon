@@ -19,64 +19,119 @@ buildscript {
 
 ext {
     mClient = init_client()
-    gh_token = '9fe6c1f3b13f7e3da20baf1449da50108ccd722b'
+    gh_token = '2a97fee28151fdde5b27a85680fb50c9f377deca'
     business_dep_url = 'https://api.github.com/repos/Lyongwang/Leeon/contents/config/business_dep.gradle'
+    business_dep_content_url = 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/business_dep.gradle'
 }
 
 
 def init_client() {
     return new OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(50, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS).addNetworkInterceptor(new Interceptor() {
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {
             Request build = chain.request().newBuilder()
-                    .addHeader("token", gh_token).build()
+                    .addHeader("Authorization", "Bearer " + gh_token)
+                    .build()
             return chain.proceed(build)
         }
     }).build()
 }
 
+task getBusinessDepData {
+    doLast{
+        // 获取更新内容
+        def depVersion = System.getProperty("version")
+        def pomArtifactId = System.getProperty("pomid")
+//        println("request content : " + getDepContent(pomArtifactId, depVersion))
+        getDepFileContent(pomArtifactId, depVersion)
+        // 更新文件需要源文件的sha值参数
+        def sha = getDepFileSha()
+        println("request sha1 : " + sha)
+        if (sha == null || "".equals(sha)) {
+            throw new RuntimeException("sha1 is empty please try it again")
+        }
+        def response = updateDepFile(content, sha)
+        println("response : " + response.code())
+    }
+}
+
+private def getDepContent(def pomArtifactId, def depVersion){
+    return "ext {\n" +
+            "    LIB = [\n" +
+            "            ${pomArtifactId}:'${depVersion}'\n" +
+            "    ]\n" +
+            "}"
+}
+
 class UpdateData{
-    String message = "update version"
+    String message = "update dep version"
     String content
     String sha
 }
 
-task getBusinessDepData {
-    doLast{
-//        def content
-        def sha
-        def request = new Request.Builder().url(business_dep_url).get().build()
-        def response = mClient.newCall(request).execute()
-        if (response.isSuccessful()) {
-            def jsonSlurper = new JsonSlurper()
-            def map = jsonSlurper.parseText(response.body().string())
-            sha = map['sha']
-            if (sha == null || "".equals(sha)){
-                throw new RuntimeException("sha is null please retry it")
-            }
-//            content = new String(Base64.getUrlDecoder().decode(map['content'].replace('\n', '')), "UTF-8")
-        } else {
-            throw new RuntimeException(response.code() + " " + response.body().string())
-        }
+/**
+ * 更新 dep 文件
+ * @param content
+ * @param sha
+ */
+private def updateDepFile(String content, sha) {
+    byte[] bytes = content.getBytes("UTF-8")
+    def updateContent = new String(Base64.getUrlEncoder().encode(bytes), "UTF-8")
+    def updateData = new UpdateData()
+    updateData.sha = sha
+    updateData.content = updateContent
+    def json = new JsonOutput().toJson(updateData)
+//    println("json:" + json)
+    def requestBody = RequestBody.create(MediaType.parse("application/json"), json)
 
-        byte[] bytes = "ext {\n" +
-                "    DEP = [\n" +
-                "            common:'com.leeon:common:v_20191227ddd_4757c52'\n" +
-                "    ]\n" +
-                "}".getBytes("UTF-8")
-        def updateContent = new String(Base64.getUrlEncoder().encode(bytes), "UTF-8")
-        def updateData = new UpdateData()
-        updateData.sha = sha
-        updateData.content = updateContent
-        def json = new JsonOutput().toJson(updateData)
-        println("json:" + json)
-        def requestBody = RequestBody.create(MediaType.parse("application/json"), json)
+    def uploadReq = new Request.Builder()
+            .url(business_dep_url)
+            .put(requestBody)
+            .addHeader("Content-Type", "application/json")
+            .build()
+    return mClient.newCall(uploadReq).execute()
+}
 
-        def uploadReq = new Request.Builder().url(business_dep_url).put(requestBody).build()
-        def uploadRes = mClient.newCall(uploadReq).execute()
-        println("response : " + uploadRes.code() + uploadRes.body().string())
+/**
+ * 获取dep文件内容
+ */
+private def getDepFileContent(def artifact, def version) {
+    def request = new Request.Builder().url(business_dep_content_url).get().build()
+    def response = mClient.newCall(request).execute()
+    if (response.isSuccessful()) {
+        def responseStr = response.body().string()
+        def oldVersion = getOldVersion(responseStr, artifact)
+//        print("dep old version : " + oldVersion)
+        def all = responseStr.replaceAll(oldVersion, version)
+//        println("dep content : " + all)
+        return all
+    } else {
+        throw new RuntimeException(response.code() + " " + response.body().string())
+    }
+}
+
+private def getOldVersion(responseStr, artifact) {
+    def index = responseStr.indexOf(artifact)
+    def sufStr = responseStr.substring(index + artifact.length() + 2)
+    def indexSemicolon = sufStr.indexOf("'")
+    return sufStr.substring(0, indexSemicolon)
+}
+
+/**
+ * 获取dep文件sha1值
+ */
+private def getDepFileSha() {
+    def request = new Request.Builder().url(business_dep_url).get().build()
+    def response = mClient.newCall(request).execute()
+    if (response.isSuccessful()) {
+        def jsonSlurper = new JsonSlurper()
+        def map = jsonSlurper.parseText(response.body().string())
+//        println("dep content : " + map['content'])
+        return map['sha']
+    } else {
+        throw new RuntimeException(response.code() + " " + response.body().string())
     }
 }
