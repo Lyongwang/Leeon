@@ -42,19 +42,21 @@ def init_client() {
 
 task getBusinessDepData {
     doLast{
+        println("upload version")
         // 获取更新内容
         def depVersion = System.getProperty("version")
         def pomArtifactId = System.getProperty("pomid")
+        //  Failed to connect to raw.githubusercontent.com
 //        println("request content : " + getDepContent(pomArtifactId, depVersion))
-        getDepFileContent(pomArtifactId, depVersion)
+//        getDepFileContent(pomArtifactId, depVersion)
         // 更新文件需要源文件的sha值参数
-        def sha = getDepFileSha()
-        println("request sha1 : " + sha)
-        if (sha == null || "".equals(sha)) {
-            throw new RuntimeException("sha1 is empty please try it again")
-        }
-        def response = updateDepFile(content, sha)
-        println("response : " + response.code())
+//        def sha = getDepFileSha()
+//        println("request sha1 : " + sha)
+//        if (sha == null || "".equals(sha)) {
+//            throw new RuntimeException("sha1 is empty please try it again")
+//        }
+//        def response = updateDepFile(content, sha)
+//        println("response : " + response.code())
     }
 }
 
@@ -103,6 +105,7 @@ private def getDepFileContent(def artifact, def version) {
     def response = mClient.newCall(request).execute()
     if (response.isSuccessful()) {
         def responseStr = response.body().string()
+        print("response str : " + responseStr + "\n" + artifact)
         def oldVersion = getOldVersion(responseStr, artifact)
 //        print("dep old version : " + oldVersion)
         def all = responseStr.replaceAll(oldVersion, version)
