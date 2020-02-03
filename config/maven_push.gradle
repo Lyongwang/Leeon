@@ -16,13 +16,13 @@ ext {
  */
 uploadArchives {
     doFirst {
-        if (!checkGitCommit()) {
+        println "isRelease : " + isRelease
+        if (isRelease && !checkGitCommit()) {
             throw new RuntimeException("please commit first!")
         }
-        if (!checkGitSync()) {
+        if (isRelease && !checkGitSync()) {
             throw new RuntimeException("please sync with remote first!")
         }
-        println "isRelease : " + isRelease
         BUILD_VERSION = new StringBuilder().append("v_").append(getTime())
                 .append("_").append(getShortCommitId())
                 .append(isRelease ? "" : "-SNAPSHOT")
@@ -38,7 +38,7 @@ uploadArchives {
             }*/
         }
         def depVersion = GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION
-        logger.error(depVersion)
+        logger.error("version : " + depVersion)
         exec{
             commandLine 'sh', '-c', "./../gradlew :${project.name}:getBusinessDepData -Dversion=${depVersion} -Dpomid=${POM_ARTIFACT_ID}"
         }

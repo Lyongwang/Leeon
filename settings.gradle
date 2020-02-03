@@ -1,1 +1,1 @@
-include ':app', ':common', ':gradleconfig'
+include ':app', ':common', ':gradleconfig', ':loginlib', ':personalcenter'
