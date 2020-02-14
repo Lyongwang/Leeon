@@ -10,7 +10,7 @@ apply from: '../config/leeon_library.gradle'
 
 android {
     defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -25,4 +25,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation DEP.RX.autodispose
+    implementation DEP.RX.autodisposeAnd
 }

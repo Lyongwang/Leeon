@@ -8,7 +8,8 @@ apply from: '../config/business_dep.gradle'
 
 android {
     defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [BundleProper: "app", IBundle: "app"]
     }
     buildTypes {
         release {

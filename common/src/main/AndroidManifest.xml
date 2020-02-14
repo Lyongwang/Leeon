@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.common" />
+    package="com.github.common" >
+    <application>
+        <!--<meta-data android:name="${BundleProper}" android:value="${IBundle}" />-->
+    </application>
+</manifest>

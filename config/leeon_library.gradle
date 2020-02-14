@@ -5,6 +5,7 @@
 apply from: '../config/leeon_dep.gradle'
 apply from: '../config/base_config.gradle'
 apply from: '../config/maven_push.gradle'
+apply from: '../config/business_dep.gradle'
 
 dependencies {
     def support = DEP.SUPPORT.values()
