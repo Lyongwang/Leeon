@@ -10,6 +10,7 @@ apply from: '../config/leeon_library.gradle'
 android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [BundleReferenceName : "com.github.personalcenter.PersoncenterBundle"]
 
     }
 
@@ -25,5 +26,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    compileOnly Lib.common
+    compileOnly LIB.common
 }

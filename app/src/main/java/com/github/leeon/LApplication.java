@@ -1,7 +1,5 @@
 package com.github.leeon;
 
-import android.app.Application;
-
 import com.github.common.CommonInit;
 import com.github.common.base.BaseApplication;
 import com.github.common.bundle.Bundles;
@@ -17,6 +15,6 @@ public class LApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         CommonInit.init(this, BuildConfig.DEBUG);
-        Bundles.init();
+        Bundles.getInstance().init();
     }
 }

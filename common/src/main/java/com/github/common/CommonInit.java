@@ -15,8 +15,10 @@ public class CommonInit {
         // 保存Application 和 debug
         AppInfo.init(application, debug);
         // 加载所有bunddle对象
-        Bundles.init();
+        Bundles.getInstance().init();
         // 初始化路由
         Router.init();
+        // 启动组件
+        Bundles.getInstance().start();
     }
 }

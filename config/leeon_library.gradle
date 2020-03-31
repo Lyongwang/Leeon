@@ -8,12 +8,16 @@ apply from: '../config/maven_push.gradle'
 apply from: '../config/business_dep.gradle'
 
 dependencies {
-    def support = DEP.SUPPORT.values()
+    def support = DEP.ANDROIDX.values()
     support.each {
         if (it instanceof Map) {
-            api it.values()
+            api (it.values()){
+                force = true
+            }
         } else {
-            api it
+            api (it){
+                force = true
+            }
         }
     }
 }

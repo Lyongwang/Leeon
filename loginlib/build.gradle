@@ -10,7 +10,7 @@ apply from: '../config/leeon_library.gradle'
 android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        manifestPlaceholders = [BundleReferenceName : "com.github.loginlib.LoginBundle"]
     }
 
     buildTypes {
@@ -24,4 +24,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly LIB.common
 }

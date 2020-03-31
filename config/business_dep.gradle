@@ -1,7 +1,7 @@
 ext {
     LIB = [
-            common: 'com.leeon:common:v_202002031745_55eb757-SNAPSHOT'
-            , login: 'com.leeon:login:v_202002031702_4ee5a4f-SNAPSHOT'
-            , personalcenter: 'com.leeon:personalcenter:v_202002031704_4ee5a4f-SNAPSHOT'
+            common: 'com.leeon:common:v_202003271748_942cb86-SNAPSHOT'
+            , login: 'com.leeon:login:v_202003241519_942cb86-SNAPSHOT'
+            , personalcenter: 'com.leeon:personalcenter:v_202002141628_942cb86-SNAPSHOT'
     ]
 }

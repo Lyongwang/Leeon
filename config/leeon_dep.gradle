@@ -1,23 +1,25 @@
 ext {
     SUPPORT_VERSION = '28.0.0'
+    ANDROIDX_VERSION = '1.0.2'
 
 
     DEP = [
-            SUPPORT: [
-                    appcompatV7       : 'androidx.appcompat:appcompat:1.0.0'
-                    , constraintLayout: 'androidx.constraintlayout:constraintlayout:1.1.3'
-//                    , groovyAll       : 'org.codehaus.groovy:groovy-all:2.4.15'
+            ANDROIDX: [
+                    appcompat       : "androidx.appcompat:appcompat:${ANDROIDX_VERSION}"
+                    , constraintLayout: "androidx.constraintlayout:constraintlayout:1.1.3"
+                    , annotation: "androidx.annotation:annotation:${ANDROIDX_VERSION}"
+//                    , groovyAll       : "org.codehaus.groovy:groovy-all:2.4.15"
             ]
             , TEST : [
-            runner        : 'com.android.support.test:runner:1.0.2'
-            , espressoCore: 'com.android.support.test.espresso:espresso-core:3.0.2'
+            runner        : "com.android.support.test:runner:1.0.2"
+            , espressoCore: "com.android.support.test.espresso:espresso-core:3.0.2"
     ]
             , NET  : [
-            okHttp3: 'com.squareup.okhttp3:okhttp:4.2.2'
+            okHttp3: "com.squareup.okhttp3:okhttp:4.2.2"
             ]
             , RX : [
-                autodispose: 'com.uber.autodispose:autodispose:1.4.0'
-                , autodisposeAnd: 'com.uber.autodispose:autodispose-android-archcomponents:1.4.0'
+                autodispose: "com.uber.autodispose:autodispose:1.4.0"
+                , autodisposeAnd: "com.uber.autodispose:autodispose-android-archcomponents:1.4.0"
             ]
     ]
 }

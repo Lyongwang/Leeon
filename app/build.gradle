@@ -21,7 +21,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    implementation LIB.common
-    implementation LIB.login
-    implementation LIB.personalcenter
+//    implementation LIB.common
+//    implementation LIB.login
+//    implementation LIB.personalcenter
+    implementation project(':common')
+    implementation project(':loginlib')
+    implementation project(':personalcenter')
 }
