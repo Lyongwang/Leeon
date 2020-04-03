@@ -8,6 +8,8 @@ apply from: '../config/maven_push.gradle'
 apply from: '../config/business_dep.gradle'
 
 dependencies {
+    annotationProcessor LIB.processor
+
     def support = DEP.ANDROIDX.values()
     support.each {
         if (it instanceof Map) {

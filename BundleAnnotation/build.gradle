@@ -1,0 +1,15 @@
+apply plugin: 'java-library'
+
+apply from: '../config/maven_push_java.gradle'
+
+ext{
+    POM_ARTIFACT_ID = 'bundle-annotation'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

@@ -1,5 +1,8 @@
 package com.github.common.bundle;
 
+import com.github.bundleannotation.BundleCode;
+import com.github.bundleannotation.BundlePropery;
+
 /**
  * Created by Lyongwang on 2020-02-14 14: 47.
  * <p>
@@ -13,12 +16,12 @@ public class BundleConfig {
     /**
      * 组件名称
      */
-    private String name;
+    private String     name;
 
     /**
      * 组件版本
      */
-    private String version;
+    private String        version;
     /**
      * 组件优先级
      */

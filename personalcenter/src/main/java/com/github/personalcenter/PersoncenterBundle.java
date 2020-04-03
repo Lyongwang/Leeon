@@ -2,9 +2,9 @@ package com.github.personalcenter;
 
 import android.util.Log;
 
-import com.github.common.bundle.BundleCode;
-import com.github.common.bundle.BundleInfo;
-import com.github.common.bundle.BundlePropery;
+import com.github.bundleannotation.BundleCode;
+import com.github.bundleannotation.BundleInfo;
+import com.github.bundleannotation.BundlePropery;
 import com.github.common.bundle.IBundle;
 
 /**

@@ -1,0 +1,17 @@
+apply plugin: 'java-library'
+apply from: '../config/maven_push_java.gradle'
+apply from: '../config/business_dep.gradle'
+
+ext{
+    POM_ARTIFACT_ID = 'bundle-processor'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation LIB.annotation
+//    implementation project(':BundleAnnotation')
+    implementation 'com.squareup:javapoet:1.11.1'
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

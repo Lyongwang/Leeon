@@ -1,0 +1,96 @@
+apply plugin: 'maven'
+ext{
+    BUILD_VERSION = '' // 上传版本号
+    timeFormat = '' // 时间戳 yyyyMMddHHmm
+    GROUP = 'com.leeon' // MAVEN group
+    RELEASE_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/release' // 这里 指定生成的Maven路径
+    SNAPSHOT_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/snapshot' // 这里 指定生成的Maven路径
+    isRelease = false
+}
+
+/**
+ * 上传snapshot版本
+ */
+uploadArchives {
+    doFirst {
+        println "isRelease : " + isRelease
+        if (isRelease && !checkGitCommit()) {
+            throw new RuntimeException("please commit first!")
+        }
+        if (isRelease && !checkGitSync()) {
+            throw new RuntimeException("please sync with remote first!")
+        }
+        BUILD_VERSION = new StringBuilder().append("v_").append(getTime())
+                .append("_").append(getShortCommitId())
+                .append(isRelease ? "" : "-SNAPSHOT")
+        repositories.mavenDeployer {
+            pom.groupId = GROUP
+            pom.artifactId = POM_ARTIFACT_ID
+            pom.version = BUILD_VERSION
+            repository(url: RELEASE_LOCAL_REPO_URL)/*{
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }*/
+            snapshotRepository(url: SNAPSHOT_LOCAL_REPO_URL)/*{
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }*/
+        }
+        def depVersion = GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION
+        logger.error("version : " + depVersion)
+    }
+}
+
+artifacts {
+    archives jar
+}
+
+
+task addReleaseParams {
+    doFirst{
+        println("addReleaseParams")
+        isRelease = true
+    }
+}
+
+/**
+ * 上传正式版本
+ */
+task uploadRelease(dependsOn: [addReleaseParams, uploadArchives]) {
+    group 'upload'
+}
+
+/**
+ * 获取当前时间戳
+ * @return
+ */
+private def getTime() {
+    return new Date().format("yyyyMMddHHmm").toString()
+}
+
+/**
+ * 获取最git近一次的commitId
+ * @return
+ */
+private def getShortCommitId() {
+    return "git rev-parse --short HEAD".execute().text.trim()
+}
+
+/**
+ * 检查是否有未提交的代码
+ * @return
+ */
+private def checkGitCommit() {
+    def status = "git status".execute().text.trim()
+    return status.contains("nothing to commit")
+}
+
+/**
+ * 检查当前分支是否与origin/master分支同步
+ * @return
+ */
+private def checkGitSync() {
+    def currBranch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+    def sync = "git diff --stat $currBranch origin/master".execute().text.trim()
+    logger.error(sync)
+    return sync.isEmpty()
+
+}

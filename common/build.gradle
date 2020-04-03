@@ -27,4 +27,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation DEP.RX.autodispose
     implementation DEP.RX.autodisposeAnd
+
+    api LIB.annotation
 }

@@ -1,12 +1,9 @@
 package com.github.leeon;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.github.common.bundle.BundleCode;
-import com.github.common.bundle.BundleInfo;
+import androidx.appcompat.app.AppCompatActivity;
 
-@BundleInfo(c = BundleCode.LOGIN, v = "1.0", n = "main", d = "test")
 public class MainActivity extends AppCompatActivity {
 
     @Override

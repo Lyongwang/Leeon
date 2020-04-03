@@ -1,1 +1,3 @@
 include ':app', ':common', ':gradleconfig', ':loginlib', ':personalcenter'
+include ':BundleProcessor'
+include ':BundleAnnotation'

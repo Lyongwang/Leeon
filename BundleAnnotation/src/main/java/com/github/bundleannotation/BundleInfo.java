@@ -1,4 +1,4 @@
-package com.github.common.bundle;
+package com.github.bundleannotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * <p>
  * Email: liyongwang@yiche.com
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface BundleInfo {
     BundlePropery p() default BundlePropery.DEFAULT;

@@ -1,4 +1,4 @@
-package com.github.common.bundle;
+package com.github.bundleannotation;
 
 /**
  * Created by Lyongwang on 2020-02-14 14: 47.
@@ -7,7 +7,10 @@ package com.github.common.bundle;
  * 组件的唯一标识
  */
 public enum BundleCode {
-    PERSONCENTER(10), LOGIN(11);
+    /**个人中心模块*/
+    PERSONCENTER(10),
+    /**登录模块*/
+    LOGIN(11);
 
     private final int code;
 

@@ -1,5 +1,7 @@
 package com.github.common.bundle;
 
+import com.github.bundleannotation.BundleData;
+
 /**
  * Created by Lyongwang on 2019-11-11 16: 14.
  * <p>
@@ -44,10 +46,10 @@ public class BundleProxy {
     }
 
     public static class Builder {
-        private BundleInfo info;
+        private BundleData info;
         private IBundle    iBundle;
 
-        public Builder setInfo(BundleInfo info) {
+        public Builder setInfo(BundleData info) {
             this.info = info;
             return this;
         }
@@ -60,11 +62,11 @@ public class BundleProxy {
         public BundleProxy build() {
             BundleProxy proxy = new BundleProxy(iBundle,
                     new BundleConfig.Builder()
-                            .name(info.n())
-                            .code(info.c())
-                            .propery(info.p())
-                            .desc(info.d())
-                            .version(info.v())
+                            .name(info.getName())
+                            .code(info.getCode())
+                            .propery(info.getPropery())
+                            .desc(info.getDesc())
+                            .version(info.getVersion())
                             .build());
             return proxy;
         }

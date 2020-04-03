@@ -1,4 +1,4 @@
-package com.github.common.bundle;
+package com.github.bundleannotation;
 
 /**
  * Created by Lyongwang on 2020-02-14 14: 50.
@@ -7,7 +7,12 @@ package com.github.common.bundle;
  * 组件加载的优先级
  */
 public enum BundlePropery {
-    HIGH(3), DEFAULT(2), LOW(1);
+    /** 高优先级*/
+    HIGH(3),
+    /** 默认优先级*/
+    DEFAULT(2),
+    /** 低优先级*/
+    LOW(1);
 
 
     private final int property;

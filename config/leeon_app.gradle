@@ -1,6 +1,13 @@
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
 apply from: '../config/base_config.gradle'
 android {
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+    }
     signingConfigs {
         release {
             storeFile file(rootProject.rootDir.absolutePath + "/leeonkey.jks")
