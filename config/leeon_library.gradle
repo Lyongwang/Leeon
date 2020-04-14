@@ -2,24 +2,10 @@
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/maven_push.gradle'
 
-apply from: '../config/leeon_dep.gradle'
 apply from: '../config/base_config.gradle'
 apply from: '../config/maven_push.gradle'
 apply from: '../config/business_dep.gradle'
 
 dependencies {
     annotationProcessor LIB.processor
-
-    def support = DEP.ANDROIDX.values()
-    support.each {
-        if (it instanceof Map) {
-            api (it.values()){
-                force = true
-            }
-        } else {
-            api (it){
-                force = true
-            }
-        }
-    }
 }

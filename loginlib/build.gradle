@@ -4,7 +4,6 @@ ext {
     POM_ARTIFACT_ID = 'login'
 }
 
-//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_library.gradle'
 apply from: '../config/leeon_library.gradle'
 
 android {

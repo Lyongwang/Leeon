@@ -2,6 +2,7 @@ package com.github.common.base;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.annotation.router.RouterActivity;
 import com.github.common.mvp.IView;
 import com.github.common.rx.RxUtils;
 import com.uber.autodispose.AutoDisposeConverter;
@@ -11,6 +12,7 @@ import com.uber.autodispose.AutoDisposeConverter;
  * <p>
  * Email: liyongwang@yiche.com
  */
+@RouterActivity(path = "sss")
 public class BaseActivity extends AppCompatActivity implements IView {
     @Override
     public <T> AutoDisposeConverter<T> bindLifecycle(){

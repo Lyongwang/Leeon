@@ -3,4 +3,14 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="color_22">#222222</color>
+    <color name="color_cc">#cccccc</color>
+    <color name="color_f8">#f8f8f8</color>
+    <color name="color_3377ff">#3377ff</color>
+    <color name="color_64">#646464</color>
+    <color name="color_49">#494949</color>
+    <color name="color_ff4b3b">#ff4b3b</color>
+    <color name="color_ee">#eeeeee</color>
+    <color name="color_e6">#e6e6e6</color>
+    <color name="color_a7">#A7A7A7</color>
 </resources>

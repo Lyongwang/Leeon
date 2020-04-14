@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_dep.gradle'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/business_dep.gradle'
 apply from: '../config/leeon_app.gradle'
-apply from: '../config/leeon_dep.gradle'
 apply from: '../config/business_dep.gradle'
 
 android {

@@ -2,10 +2,12 @@ package com.github.common.bundle;
 
 import android.util.Log;
 
-import com.github.bundleannotation.BundleData;
-import com.github.bundleannotation.BundleStorage;
-import com.github.bundleannotation.Constains;
-import com.github.bundleannotation.IBundleInit;
+import com.github.annotation.bundle.BundleConstains;
+import com.github.annotation.bundle.BundleData;
+import com.github.annotation.bundle.BundleStorage;
+import com.github.annotation.bundle.IBundleInit;
+import com.github.annotation.router.IRouterInit;
+import com.github.annotation.router.RouterConstains;
 import com.github.common.base.AppInfo;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ import dalvik.system.DexFile;
 public class Bundles {
     private static final String TAG = Bundles.class.getSimpleName();
     private static PriorityQueue<BundleProxy> mProxies = new PriorityQueue<>(11, (proxy1, proxy2) ->
-                    proxy1.getConfig().getPropery().intValue() - proxy2.getConfig().getPropery().intValue());
+                    proxy1.getBundelData().getPropery().intValue() - proxy2.getBundelData().getPropery().intValue());
 
     public static Bundles getInstance(){
         return SingletonHolder.instance;
@@ -43,9 +45,15 @@ public class Bundles {
             Enumeration<String> entries = dexFile.entries();
             while (entries.hasMoreElements()){
                 String className = entries.nextElement();
-                if (className.startsWith(Constains.PACKAGE_NAME) &&
-                        className.contains(Constains.CLASS_NAME_SEPARATOR.concat(Constains.CLASS_NAME_SUFIX))){
-                    // 1 解析组件
+                // router初始化
+                if (className.startsWith(RouterConstains.PACKAGE_NAME)
+                    && className.endsWith(RouterConstains.CLASS_NAME_SEPARATOR.concat(RouterConstains.CLASS_NAME_SUFIX))){
+                    initRouter(className);
+                }
+                // 读取所有BundleInit类
+                if (className.startsWith(BundleConstains.PACKAGE_NAME) &&
+                        className.endsWith(BundleConstains.CLASS_NAME_SEPARATOR.concat(BundleConstains.CLASS_NAME_SUFIX))){
+                    // 1 解析组件 存储到bundleStroage中
                     initBundles(className);
                 }
             }
@@ -54,6 +62,18 @@ public class Bundles {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // 加载router
+    private void initRouter(String className) {
+        Object routerInit = reflexClass(className);
+        if (routerInit == null){
+            return;
+        }
+        Log.i(TAG, "initRouter: " + className);
+        if (routerInit instanceof IRouterInit){
+            ((IRouterInit) routerInit).init();
         }
     }
 

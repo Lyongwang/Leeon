@@ -6,7 +6,7 @@ ext {
 }
 
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_library.gradle'
-apply from: '../config/leeon_library.gradle'
+apply from: '../config/leeon_common.gradle'
 
 android {
     defaultConfig {
@@ -25,8 +25,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation DEP.RX.autodispose
-    implementation DEP.RX.autodisposeAnd
-
     api LIB.annotation
 }

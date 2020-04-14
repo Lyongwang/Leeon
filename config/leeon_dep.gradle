@@ -21,5 +21,6 @@ ext {
                 autodispose: "com.uber.autodispose:autodispose:1.4.0"
                 , autodisposeAnd: "com.uber.autodispose:autodispose-android-archcomponents:1.4.0"
             ]
+            , butterknife : "com.jakewharton:butterknife:10.2.1"
     ]
 }

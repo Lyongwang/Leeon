@@ -1,0 +1,12 @@
+apply from: '../config/leeon_dep.gradle'
+apply from: '../config/leeon_library.gradle'
+dependencies {
+    def support = DEP.values()
+    support.each {
+        if (it instanceof Map) {
+            api it.values()
+        } else {
+            api it
+        }
+    }
+}

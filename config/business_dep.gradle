@@ -1,9 +1,9 @@
 ext {
     LIB = [
-            common: 'com.leeon:common:v_202004031058_67b02ee-SNAPSHOT'
-            , login: 'com.leeon:login:v_202004031002_67b02ee-SNAPSHOT'
-            , personalcenter: 'com.leeon:personalcenter:v_202004031004_67b02ee-SNAPSHOT'
-            , annotation: 'com.leeon:bundle-annotation:v_202004030945_67b02ee-SNAPSHOT'
-            , processor: 'com.leeon:bundle-processor:v_202004031001_67b02ee-SNAPSHOT'
+            common: 'com.leeon:common:v_202004131919_2c1063c-SNAPSHOT'
+            , login: 'com.leeon:login:v_202004130947_2c1063c-SNAPSHOT'
+            , personalcenter: 'com.leeon:personalcenter:v_202004140935_2c1063c-SNAPSHOT'
+            , annotation: 'com.leeon:bundle-annotation:v_202004131422_2c1063c-SNAPSHOT'
+            , processor: 'com.leeon:bundle-processor:v_202004131503_2c1063c-SNAPSHOT'
     ]
 }
