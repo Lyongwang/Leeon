@@ -1,9 +1,14 @@
 package com.github.common.base;
 
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.annotation.router.IntentParam;
 import com.github.annotation.router.RouterActivity;
 import com.github.common.mvp.IView;
+import com.github.common.router.ParamInjector;
 import com.github.common.rx.RxUtils;
 import com.uber.autodispose.AutoDisposeConverter;
 
@@ -12,11 +17,15 @@ import com.uber.autodispose.AutoDisposeConverter;
  * <p>
  * Email: liyongwang@yiche.com
  */
-@RouterActivity(path = "sss")
 public class BaseActivity extends AppCompatActivity implements IView {
     @Override
     public <T> AutoDisposeConverter<T> bindLifecycle(){
         return RxUtils.bindLifecycle(this);
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ParamInjector.inject(this);
+        super.onCreate(savedInstanceState);
+    }
 }

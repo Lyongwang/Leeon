@@ -13,9 +13,7 @@ import butterknife.BindView;
 /**
  * @author lxiansheng
  */
-@Main
 public class MainActivity extends AppCompatActivity {
-
     @BindView(R.id.tv_first)
     TextView  tvFirstPage;
     @BindView(R.id.tv_my)

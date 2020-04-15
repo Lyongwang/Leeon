@@ -47,7 +47,7 @@ public class Bundles {
                 String className = entries.nextElement();
                 // router初始化
                 if (className.startsWith(RouterConstains.PACKAGE_NAME)
-                    && className.endsWith(RouterConstains.CLASS_NAME_SEPARATOR.concat(RouterConstains.CLASS_NAME_SUFIX))){
+                    && className.endsWith(RouterConstains.CLASS_NAME_SEPARATOR.concat(RouterConstains.ROUTER_NAME_SUFIX))){
                     initRouter(className);
                 }
                 // 读取所有BundleInit类

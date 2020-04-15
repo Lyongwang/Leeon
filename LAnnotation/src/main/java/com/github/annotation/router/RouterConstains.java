@@ -6,9 +6,10 @@ package com.github.annotation.router;
  * Email: liyongwang@yiche.com
  */
 public interface RouterConstains {
-    String CLASS_NAME_SUFIX = "RouterInit";
+    String ROUTER_NAME_SUFIX    = "RouterInit";
+    String PARAM_NAME_SUFIX    = "ParamInjector";
     String CLASS_NAME_SEPARATOR = "$$";
-    String PACKAGE_NAME = "com.github.leeon.router";
+    String PACKAGE_NAME         = "com.github.leeon.router";
 
     String SCHEME_SEPARATOR = "://";
     String PATH_SEPARATOR = "/";

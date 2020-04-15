@@ -96,7 +96,7 @@ public class SchemeProcessor extends AbstractProcessor {
 
     private String getClassName() {
         String moduleName = Character.toUpperCase(this.mModuleName.charAt(0)) + this.mModuleName.substring(1);
-        return moduleName.concat(RouterConstains.CLASS_NAME_SEPARATOR).concat(RouterConstains.CLASS_NAME_SUFIX);
+        return moduleName.concat(RouterConstains.CLASS_NAME_SEPARATOR).concat(RouterConstains.ROUTER_NAME_SUFIX);
     }
 
     private String getScheme(RouterActivity annotation) {
