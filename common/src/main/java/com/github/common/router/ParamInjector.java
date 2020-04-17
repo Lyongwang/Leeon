@@ -2,6 +2,8 @@ package com.github.common.router;
 
 import android.app.Activity;
 
+import androidx.fragment.app.Fragment;
+
 import com.github.annotation.router.IParamInjector;
 import com.github.annotation.router.RouterConstains;
 import com.github.common.base.BaseActivity;
@@ -15,6 +17,25 @@ import java.lang.reflect.InvocationTargetException;
  * Email: liyongwang@yiche.com
  */
 public class ParamInjector {
+
+    public static void inject(Fragment fragment) {
+        String clsName = fragment.getClass().getCanonicalName();
+        try {
+            Class clazz = Class.forName(clsName
+                    .concat(RouterConstains.CLASS_NAME_SEPARATOR)
+                    .concat(RouterConstains.PARAM_NAME_SUFIX));
+            Constructor constructorMethod = clazz.getDeclaredConstructor(fragment.getClass());
+            constructorMethod.setAccessible(true);
+            Object object = constructorMethod.newInstance(fragment);
+
+            if (object instanceof IParamInjector){
+                ((IParamInjector) object).inject();
+            }
+            constructorMethod.setAccessible(false);
+        } catch (ClassNotFoundException | InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void inject(Activity activity) {
         String clsName = activity.getClass().getCanonicalName();

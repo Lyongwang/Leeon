@@ -22,6 +22,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 /**
  * @author Lyongwang
@@ -35,12 +38,16 @@ public class ParamsProcessor extends AbstractProcessor {
     private              Filer    mFiler;
     private              Messager mMessager;
     private              String   mModuleName;
+    private Types mTypeUtils;
+    private Elements mElementUtils;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
         mFiler = processingEnvironment.getFiler();
         mMessager = processingEnvironment.getMessager();
+        mTypeUtils = processingEnvironment.getTypeUtils();
+        mElementUtils = processingEnvironment.getElementUtils();
         mModuleName = processingEnvironment.getOptions().get("moduleName");
     }
 
@@ -51,7 +58,6 @@ public class ParamsProcessor extends AbstractProcessor {
         Set<? extends Element> paramElements = roundEnvironment.getRootElements();
 
         ClassName stringClassName = ClassName.get("java.lang", "String");
-        ClassName boolClassName = ClassName.get("java.lang", "Boolean");
         ClassName exceptionClassName = ClassName.get("java.lang", "Exception");
         ClassName bundleClassName = ClassName.get("android.os", "Bundle");
         ClassName objectClassName = ClassName.get("java.lang", "Object");
@@ -79,8 +85,13 @@ public class ParamsProcessor extends AbstractProcessor {
                 String fieldName = elementField.getSimpleName().toString();
                 if (!hasExtra) {
                     hasExtra = true;
-                    injectMethodBuilder.addStatement("$T $L = this.target.getIntent().getExtras()", bundleClassName, EXTRA)
-                            .beginControlFlow("if($L == null)", EXTRA)
+                    if (isActivity(element)) {
+                        injectMethodBuilder.addStatement("$T $L = this.target.getIntent().getExtras()", bundleClassName, EXTRA);
+                    } else {
+                        injectMethodBuilder.addStatement("$T $L = this.target.getArguments()", bundleClassName, EXTRA);
+                    }
+
+                    injectMethodBuilder.beginControlFlow("if($L == null)", EXTRA)
                             .addStatement("return")
                             .endControlFlow();
                 }
@@ -125,6 +136,18 @@ public class ParamsProcessor extends AbstractProcessor {
             }
         }
         return true;
+    }
+
+    private boolean isFragment(Element element) {
+        return isSubType(element.asType(), "androidx.fragment.app.Fragment");
+    }
+
+    private boolean isSubType(TypeMirror elementType, String typeName) {
+        return mTypeUtils.isSubtype(elementType, mElementUtils.getTypeElement(typeName).asType());
+    }
+
+    private boolean isActivity(Element element) {
+        return isSubType(element.asType(), "android.app.Activity");
     }
 
     private String getTypeName(Element elementField) {

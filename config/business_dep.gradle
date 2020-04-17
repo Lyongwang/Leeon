@@ -4,6 +4,6 @@ ext {
             , login: 'com.leeon:login:v_202004130947_2c1063c-SNAPSHOT'
             , personalcenter: 'com.leeon:personalcenter:v_202004140935_2c1063c-SNAPSHOT'
             , annotation: 'com.leeon:bundle-annotation:v_202004151113_531ee9f-SNAPSHOT'
-            , processor: 'com.leeon:bundle-processor:v_202004151822_531ee9f-SNAPSHOT'
+            , processor: 'com.leeon:bundle-processor:v_202004152225_5fa195e-SNAPSHOT'
     ]
 }
