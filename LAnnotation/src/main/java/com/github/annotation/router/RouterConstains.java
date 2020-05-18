@@ -12,5 +12,6 @@ public interface RouterConstains {
     String PACKAGE_NAME         = "com.github.leeon.router";
 
     String SCHEME_SEPARATOR = "://";
-    String PATH_SEPARATOR = "/";
+    String PATH_SEPARATOR   = "/";
+    String METHOD_PROFIX    = "?method=";
 }

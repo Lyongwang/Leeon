@@ -28,6 +28,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
 /**
+ * 组件注解处理器
  * Created by Lyongwang on 2020/3/31 17: 13.
  * <p>
  * Email: liyongwang@yiche.com

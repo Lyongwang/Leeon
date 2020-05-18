@@ -1,4 +1,4 @@
-package com.github.annotation.router;
+package com.github.annotation.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,7 @@ public class MethodInfo {
     private String className;
     private String methodName;
     private List<ParameterInfo>  params = new ArrayList<>();
+    private List paramValues = new ArrayList();
 
     public static MethodInfo obtain(String className, String methodName, ParameterInfo... params){
         MethodInfo methodInfo = new MethodInfo();
@@ -38,11 +39,19 @@ public class MethodInfo {
         this.methodName = methodName;
     }
 
-    public List getParams() {
+    public List<ParameterInfo> getParams() {
         return params;
     }
 
     public void setParams(List<ParameterInfo> params) {
         this.params = params;
+    }
+
+    public void addParamValue(Object paramsValue) {
+        paramValues.add(paramsValue);
+    }
+
+    public List getParamValues() {
+        return paramValues;
     }
 }

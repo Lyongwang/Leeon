@@ -24,7 +24,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 /**
- *
+ * scheme跳转注解处理器
  * @author Lyongwang
  * @date 2020/4/10 11: 27
  * <p>

@@ -17,5 +17,10 @@ public class CommonInit {
         Bundles.getInstance().init();
         // 启动组件
         Bundles.getInstance().start();
+
+        callTestRouterMethod();
+    }
+
+    private static void callTestRouterMethod() {
     }
 }

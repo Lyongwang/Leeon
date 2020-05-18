@@ -1,4 +1,4 @@
-package com.github.annotation.router;
+package com.github.annotation.service;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,12 +8,12 @@ import java.lang.annotation.Target;
 /**
  *
  * @author Lyongwang
- * @date 2020/4/8 18: 24
+ * @date 2020/4/29 15: 55
  * <p>
  * Email: liyongwang@yiche.com
  */
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.PARAMETER)
-public @interface ServiceParam {
-    String value();
+public @interface ServiceRouter {
+    String value() default "";
 }

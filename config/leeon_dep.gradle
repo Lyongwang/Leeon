@@ -18,6 +18,8 @@ ext {
             okHttp3: "com.squareup.okhttp3:okhttp:4.2.2"
             ]
             , RX : [
+                rxandroid : "io.reactivex.rxjava3:rxandroid:3.0.0",
+                rxjava : "io.reactivex.rxjava3:rxjava:3.0.2",
                 autodispose: "com.uber.autodispose:autodispose:1.4.0"
                 , autodisposeAnd: "com.uber.autodispose:autodispose-android-archcomponents:1.4.0"
             ]
