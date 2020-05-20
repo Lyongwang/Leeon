@@ -43,7 +43,7 @@ public class RouterTable {
         params.add(parameter);
         params.add(parameter1);
         method.setParams(params);
-        servicesMethod.put("leeon://leeon.test/personcenter.personImpl?method=getUserId&key1=value1&key2=value2", method);
+        putMethod("leeon://leeon.test/personcenter.personImpl?method=getUserId&key1=value1&key2=value2", method);
     }
 
     public static void putMethod(String scheme, MethodInfo methodInfo){

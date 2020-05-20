@@ -18,14 +18,19 @@ public interface RouterConstans {
 
 
     public interface Service {
+        String service_profix = "leeon://leeon.test/";
         /**
          * 登录模块
          */
-        String login = "login";
+        String login = service_profix + "login";
         /**
          * 个人中心
          */
-        String personcenter = "personcenter";
+        String personcenter = service_profix + "personcenter";
+        /**
+         * common
+         */
+        String common = service_profix + "common";
     }
 
     public interface Paths{

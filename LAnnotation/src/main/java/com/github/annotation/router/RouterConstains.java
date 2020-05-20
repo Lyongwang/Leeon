@@ -14,4 +14,5 @@ public interface RouterConstains {
     String SCHEME_SEPARATOR = "://";
     String PATH_SEPARATOR   = "/";
     String METHOD_PROFIX    = "?method=";
+    String SERVICE_SUFIX = "Service";
 }
