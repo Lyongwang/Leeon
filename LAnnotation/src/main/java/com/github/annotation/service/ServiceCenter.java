@@ -36,25 +36,11 @@ public class ServiceCenter {
         return SingletonHolder.INSTANCE;
     }
 
-    <E> E callMethod(String serviceName, String methodName, Map<String, Object> params) {
-        checkValid(serviceName, methodName);
-        MethodInfo serviceMethod = getServiceMethod(serviceName, methodName, params);
-        return callMethod(serviceMethod);
-    }
+    <E> E callMethod(String serviceSchema, String methodName, Map<String, Object> params) {
+        checkValid(serviceSchema, methodName);
+        MethodInfo serviceMethod = getServiceMethod(serviceSchema, methodName);
 
-    private <E> E callMethod(MethodInfo serviceMethod) {
-        try {
-            Class<?> clazz = Class.forName(serviceMethod.getClassName());
-            Method declaredMethod = clazz.getDeclaredMethod(serviceMethod.getMethodName(), clazz);
-            declaredMethod.setAccessible(true);
-            E methodReturnValue = (E)declaredMethod.invoke(getClass(clazz), serviceMethod.getParamValues());
-            declaredMethod.setAccessible(false);
-            return methodReturnValue;
-        } catch (ClassNotFoundException| IllegalAccessException e) {
-            throw new RuntimeException(String.format("class %s not found, please check it!", serviceMethod.getClassName()));
-        } catch (NoSuchMethodException|InvocationTargetException e) {
-            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", serviceMethod.getMethodName(), serviceMethod.getClassName()));
-        }
+        return serviceMethod.call(params);
     }
 
     private Object getClass(Class<?> clazz) {
@@ -72,49 +58,46 @@ public class ServiceCenter {
 
     /**
      * 获取服务方法
-     * @param serviceName
+     * @param serviceSchema 服务对应的schema
      * @param methodName
-     * @param params
      * @return
      */
-    private MethodInfo getServiceMethod(String serviceName, String methodName, Map<String, Object> params) {
-        MethodInfo method = RouterTable.getMethod(serviceName, methodName);
+    private MethodInfo getServiceMethod(String serviceSchema, String methodName) {
+        MethodInfo method = RouterTable.getMethod(serviceSchema, methodName);
         if (method == null){
-            throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodName, serviceName));
+            throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodName, serviceSchema));
         }
-        if (!checkParams(params, method)){
-            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", methodName, serviceName));
-        } else {
-            return method;
-        }
+        method.setMethod(generateMethod(serviceSchema, method));
+
+        return method;
 
     }
 
     /**
-     * 对比参数类型是否匹配, 如匹配将参数值保存到参数列表中
-     * @param params 传入参数
-     * @param methodInfo 注解方法
+     * TOTO 缓存
+     * 遍历指定服务的注解方法
+     * @param serviceName 服务名称
+     * @param methodInfo 方法对象
      * @return
      */
-    private boolean checkParams(Map<String, Object> params, MethodInfo methodInfo) {
-        List<ParameterInfo> methodParams = methodInfo.getParams();
-        if (params.size() != methodParams.size()){
-            return false;
-        }
-        for (ParameterInfo parameterInfo : methodParams){
-            Object paramsValue = params.get(parameterInfo.getName());
-            if (parameterInfo.getType() != paramsValue.getClass()){
-                return false;
-            } else {
-                methodInfo.addParamValue(paramsValue);
+    private Method generateMethod(String serviceName, MethodInfo methodInfo) {
+        try {
+            Class<?> aClass = Class.forName(serviceName);
+            Method[] declaredMethods = aClass.getDeclaredMethods();
+            for (Method method : declaredMethods){
+                if (method.getName().equals(methodInfo.getMethodName())){
+                    return method;
+                }
             }
+            throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodInfo.getMethodName(), serviceName));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(String.format("service %s is not exist, please check it!", serviceName));
         }
-        return true;
     }
 
-    private void checkValid(String serviceName, String methodName) {
-        if (TextUtils.isEmpty(serviceName)){
-            throw new RuntimeException("service name is empty, please check it!");
+    private void checkValid(String serviceSchema, String methodName) {
+        if (TextUtils.isEmpty(serviceSchema)){
+            throw new RuntimeException("service schema is empty, please check it!");
         }
 
         if (TextUtils.isEmpty(methodName)){

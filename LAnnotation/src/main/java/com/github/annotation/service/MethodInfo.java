@@ -1,8 +1,8 @@
 package com.github.annotation.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Created by Lyongwang on 2020/4/8 18: 46.
@@ -10,17 +10,16 @@ import java.util.List;
  * Email: liyongwang@yiche.com
  */
 public class MethodInfo {
-    private String className;
-    private String methodName;
-    private List<ParameterInfo>  params = new ArrayList<>();
-    private List paramValues = new ArrayList();
+    private String              className;
+    private String              methodName;
+    private Method              method;
 
-    public static MethodInfo obtain(String className, String methodName, ParameterInfo... params){
-        MethodInfo methodInfo = new MethodInfo();
-        methodInfo.setClassName(className);
-        methodInfo.setMethodName(methodName);
-        methodInfo.setParams(Arrays.asList(params));
-        return methodInfo;
+    public void setMethod(Method method){
+        this.method = method;
+    }
+
+    public Method getMethod(){
+        return method;
     }
 
     public String getClassName() {
@@ -39,19 +38,16 @@ public class MethodInfo {
         this.methodName = methodName;
     }
 
-    public List<ParameterInfo> getParams() {
-        return params;
-    }
-
-    public void setParams(List<ParameterInfo> params) {
-        this.params = params;
-    }
-
-    public void addParamValue(Object paramsValue) {
-        paramValues.add(paramsValue);
-    }
-
-    public List getParamValues() {
-        return paramValues;
+    public <E> E call(Map<String, Object> params) {
+        try {
+            method.setAccessible(true);
+            E methodReturnValue = (E)method.invoke(getClass(clazz), params);
+            method.setAccessible(false);
+            return methodReturnValue;
+        } catch (ClassNotFoundException| IllegalAccessException e) {
+            throw new RuntimeException(String.format("class %s not found, please check it!", serviceMethod.getClassName()));
+        } catch (NoSuchMethodException| InvocationTargetException e) {
+            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", serviceMethod.getMethodName(), serviceMethod.getClassName()));
+        }
     }
 }

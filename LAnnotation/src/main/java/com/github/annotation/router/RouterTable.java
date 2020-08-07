@@ -37,13 +37,7 @@ public class RouterTable {
         MethodInfo method = new MethodInfo();
         method.setClassName("com.leeon.personcenter.PersonImpl");
         method.setMethodName("getUserId");
-        ArrayList<ParameterInfo> params = new ArrayList<>();
-        ParameterInfo parameter = new ParameterInfo("key1", String.class);
-        ParameterInfo parameter1 = new ParameterInfo("key2", Integer.class);
-        params.add(parameter);
-        params.add(parameter1);
-        method.setParams(params);
-        putMethod("leeon://leeon.test/personcenter.personImpl?method=getUserId&key1=value1&key2=value2", method);
+        putMethod("leeon://leeon.test/personcenter.personImpl?method=getUserId", method);
     }
 
     public static void putMethod(String scheme, MethodInfo methodInfo){
@@ -52,17 +46,17 @@ public class RouterTable {
 
     /**
      * 根据服务名称&方法名称 获取服务方法对象,找不到返回空
-     * @param serviceName 服务名称
+     * @param serviceSchema 服务名称
      * @param methodName 方法名称
      * @return
      */
-    public static MethodInfo getMethod(String serviceName, String methodName) {
+    public static MethodInfo getMethod(String serviceSchema, String methodName) {
         Set<String> methodScheme = servicesMethod.keySet();
         for (String key : methodScheme){
-            if (!TextUtils.isEmpty(key) && key.startsWith(serviceName.concat(RouterConstains.METHOD_PROFIX).concat(methodName))){
+            if (!TextUtils.isEmpty(key) && key.equals(serviceSchema.concat(RouterConstains.METHOD_PROFIX).concat(methodName))){
                 return servicesMethod.get(key);
             }
         }
-        return null;
+        throw new RuntimeException(throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodName, serviceSchema)););
     }
 }

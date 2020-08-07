@@ -8,6 +8,8 @@ import com.github.annotation.bundle.BundleStorage;
 import com.github.annotation.bundle.IBundleInit;
 import com.github.annotation.router.IRouterInit;
 import com.github.annotation.router.RouterConstains;
+import com.github.annotation.service.IBundleService;
+import com.github.annotation.service.ServiceConstances;
 import com.github.common.base.AppInfo;
 
 import java.io.IOException;
@@ -56,12 +58,29 @@ public class Bundles {
                     // 1 解析组件 存储到bundleStroage中
                     initBundles(className);
                 }
+
+                // BundleService初始化
+                if (className.endsWith(ServiceConstances.CLASS_NAME_SEPARATOR.concat(ServiceConstances.CLASS_NAME_SUFIX))
+                        && className.startsWith(ServiceConstances.PACKAGE_NAME)){
+                    initService(className);
+                }
             }
             // 2 加载组件
             loadBundles();
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initService(String className) {
+        Object routerServiceRegister = reflexClass(className);
+        if (routerServiceRegister == null){
+            return;
+        }
+        Log.i(TAG, "initService: " + className);
+        if (routerServiceRegister instanceof IBundleService){
+            ((IBundleService) routerServiceRegister).regist();
         }
     }
 
