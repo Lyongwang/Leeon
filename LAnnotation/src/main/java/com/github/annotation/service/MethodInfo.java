@@ -1,7 +1,9 @@
 package com.github.annotation.service;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Map;
 
 /**
@@ -38,16 +40,38 @@ public class MethodInfo {
         this.methodName = methodName;
     }
 
-    public <E> E call(Map<String, Object> params) {
+    public <E> E call(Object classInstance, Map<String, Object> params) {
         try {
             method.setAccessible(true);
-            E methodReturnValue = (E)method.invoke(getClass(clazz), params);
+            Object[] paramValues = getParamValues(params, method.getParameters());
+            E methodReturnValue = (E)method.invoke(classInstance, paramValues);
             method.setAccessible(false);
             return methodReturnValue;
-        } catch (ClassNotFoundException| IllegalAccessException e) {
-            throw new RuntimeException(String.format("class %s not found, please check it!", serviceMethod.getClassName()));
-        } catch (NoSuchMethodException| InvocationTargetException e) {
-            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", serviceMethod.getMethodName(), serviceMethod.getClassName()));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", method.getName(), className));
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(String.format("method %s in service %s params error, please check it!", method.getName(), className));
+        }
+    }
+
+    private Object[] getParamValues(Map<String, Object> params, Parameter[] parameters) {
+        if (parameters != null && parameters.length > 0) {
+            String[] paramNames = new String[parameters.length];
+            int i = 0;
+            for (Parameter parameter : parameters) {
+                ServiceParam[] paramAnnotation = parameter.getDeclaredAnnotationsByType(ServiceParam.class);
+                if (paramAnnotation != null && paramAnnotation.length > 0) {
+                    paramNames[i++] = paramAnnotation[0].value();
+                }
+            }
+            int j = 0;
+            Object[] paramValues = new Object[paramNames.length];
+            for (String paramName : paramNames) {
+                paramValues[j++] = params.get(params.get(paramName));
+            }
+            return paramValues;
+        } else {
+            return null;
         }
     }
 }
