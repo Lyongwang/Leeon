@@ -31,11 +31,11 @@ public class RouterTable {
      * 存储service -> Method对应关系
      */
     private static HashMap<String, MethodInfo> servicesMethod = new HashMap<>();
-    // leeon://leeon.test/personcenter.personImpl?method=getUserId&paramKey=paramValue
+    // leeon://leeon.test/personcenter.personImpl?method=getUserId
 
     static {
         MethodInfo method = new MethodInfo();
-        method.setClassName("com.leeon.personcenter.PersonImpl");
+        method.setClassName("com.github.personalcenter.PersonImpl");
         method.setMethodName("getUserId");
         putMethod("leeon://leeon.test/personcenter.personImpl?method=getUserId", method);
     }
@@ -57,6 +57,6 @@ public class RouterTable {
                 return servicesMethod.get(key);
             }
         }
-        throw new RuntimeException(throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodName, serviceSchema)););
+        throw new RuntimeException(String.format("method %s in service %s is not exist, please check it!", methodName, serviceSchema));
     }
 }

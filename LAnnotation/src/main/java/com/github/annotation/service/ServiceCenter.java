@@ -3,6 +3,7 @@ package com.github.annotation.service;
 import com.github.annotation.TextUtils;
 import com.github.annotation.router.RouterTable;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class ServiceCenter {
     /**
      * 缓存服务方法对象
      */
-    private Map<String, Object> methodCache = new HashMap<>();
+    private Map<String, MethodInfo> methodCache = new HashMap<>();
 
     private ServiceCenter(){
     }
@@ -38,9 +39,24 @@ public class ServiceCenter {
 
     <E> E callMethod(String serviceSchema, String methodName, Map<String, Object> params) {
         checkValid(serviceSchema, methodName);
-        MethodInfo serviceMethod = getServiceMethod(serviceSchema, methodName);
+        MethodInfo serviceMethod;
+        String methodCacheKey = getMethodKey(serviceSchema, methodName);
+        if (methodCache.containsKey(methodCacheKey)) {
+            serviceMethod = methodCache.get(methodCacheKey);
+        } else {
+            serviceMethod = getServiceMethod(serviceSchema, methodName);
+        }
+        Object classInstance;
+        try {
+            classInstance = getClass(Class.forName(serviceMethod.getClassName()));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(String.format("class %s not found, please check it!", serviceMethod.getClassName()));
+        }
+        return serviceMethod.call(classInstance, params);
+    }
 
-        return serviceMethod.call(params);
+    private String getMethodKey(String serviceSchema, String methodName) {
+        return serviceSchema.concat(File.separator).concat(methodName);
     }
 
     private Object getClass(Class<?> clazz) {
@@ -82,7 +98,7 @@ public class ServiceCenter {
      */
     private Method generateMethod(String serviceName, MethodInfo methodInfo) {
         try {
-            Class<?> aClass = Class.forName(serviceName);
+            Class<?> aClass = Class.forName(methodInfo.getClassName());
             Method[] declaredMethods = aClass.getDeclaredMethods();
             for (Method method : declaredMethods){
                 if (method.getName().equals(methodInfo.getMethodName())){

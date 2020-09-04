@@ -52,12 +52,12 @@ public class Router {
                 .addParam("key2", 1)
                 .addParam("key1", "value1")
                 .execute();
-        Observable<String> result = Router.service("leeon://leeon.test/personcenter.personImpl")
-                .callMethod("getUserNameById")
-                .addParam("id", 1)
-                .addParam("id2", "ddd")
-                .addParam("needShow", true)
-                .execute();
+//        Observable<String> result = Router.service("leeon://leeon.test/personcenter.personImpl")
+//                .callMethod("getUserNameById")
+//                .addParam("id", 1)
+//                .addParam("id2", "ddd")
+//                .addParam("needShow", true)
+//                .execute();
     }
 
 }
