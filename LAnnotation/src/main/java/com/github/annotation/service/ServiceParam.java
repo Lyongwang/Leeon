@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * <p>
  * Email: liyongwang@yiche.com
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface ServiceParam {
     String value() default "";

@@ -47,11 +47,14 @@ public class Router {
 
 
     public static void main(String[] args){
-        Router.service("leeon://leeon.test/personcenter.personImpl")
+        int result = Router.service("leeon://leeon.test/personcenter.personImpl")
                 .callMethod("getUserId")
-                .addParam("key2", 1)
+                .addParam("key", 1)
+//                .addParam("key2", "value1")
                 .addParam("key1", "value1")
+//                .addParam("key3", "value1")
                 .execute();
+        System.out.println("return ----> " + result);
 //        Observable<String> result = Router.service("leeon://leeon.test/personcenter.personImpl")
 //                .callMethod("getUserNameById")
 //                .addParam("id", 1)

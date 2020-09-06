@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -44,7 +45,12 @@ public class MethodInfo {
         try {
             method.setAccessible(true);
             Object[] paramValues = getParamValues(classInstance, params, method.getParameters());
-            E methodReturnValue = (E)method.invoke(classInstance, paramValues);
+            E methodReturnValue;
+            if (paramValues != null) {
+                methodReturnValue = (E) method.invoke(classInstance, paramValues);
+            } else {
+                methodReturnValue = (E) method.invoke(classInstance);
+            }
             method.setAccessible(false);
             return methodReturnValue;
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -55,7 +61,9 @@ public class MethodInfo {
     }
 
     private Object[] getParamValues(Object classInstance, Map<String, Object> params, Parameter[] parameters) {
-        if (parameters != null && parameters.length > 0) {
+        if (!hasParams(parameters, params)) {
+            return null;
+        } else {
             String[] paramNames = new String[parameters.length];
             int i = 0;
             for (Parameter parameter : parameters) {
@@ -70,8 +78,8 @@ public class MethodInfo {
             int j = 0;
             Object[] paramValues = new Object[paramNames.length];
             for (String paramName : paramNames) {
-                Object paramValue = params.get(params.get(paramName));
-                if (parameters[j].getType() == paramValue.getClass()) {
+                Object paramValue = params.get(paramName);
+                if (paramValue != null && isSameType(parameters[j], paramValue)) {
                     paramValues[j++] = paramValue;
                 } else {
                     throw new RuntimeException(String.format("method %s param %s type " +
@@ -80,8 +88,25 @@ public class MethodInfo {
                 }
             }
             return paramValues;
-        } else {
-            return null;
         }
+    }
+
+    private boolean hasParams(Parameter[] parameters, Map<String, Object> params) {
+        return parameters != null && parameters.length > 0 && params != null && params.size() > 0;
+    }
+
+    public static boolean isSameType(Parameter parameter, Object paramValue) {
+        if (parameter == null || paramValue == null){
+            return false;
+        }
+        Class<?> paramValueClass = paramValue.getClass();
+        Class<?> parameterType = parameter.getType();
+        if (paramValueClass == int.class || paramValueClass == Integer.class){
+            return parameterType == int.class || parameterType == Integer.class;
+        }
+        if (paramValueClass == boolean.class || paramValue == Boolean.class){
+            return parameterType == int.class || parameterType == Integer.class;
+        }
+        return parameterType == paramValueClass;
     }
 }
