@@ -3,8 +3,8 @@ ext{
     BUILD_VERSION = '' // 上传版本号
     timeFormat = '' // 时间戳 yyyyMMddHHmm
     GROUP = 'com.leeon' // MAVEN group
-    RELEASE_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/release' // 这里 指定生成的Maven路径
-    SNAPSHOT_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/snapshot' // 这里 指定生成的Maven路径
+    RELEASE_LOCAL_REPO_URL = 'file://' + user_dir + '/github/maven/release' // 这里 指定生成的Maven路径
+    SNAPSHOT_LOCAL_REPO_URL = 'file://' + user_dir + '/github/maven/snapshot' // 这里 指定生成的Maven路径
     isRelease = false
 }
 
