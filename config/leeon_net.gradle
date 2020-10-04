@@ -1,0 +1,13 @@
+ext {
+    NET = [
+
+            okHttp: "com.squareup.okhttp3:okhttp:4.2.2",
+            retrofit:[
+                    converter: "com.squareup.retrofit2:retrofit:2.9.0",
+                    convertergson: "com.squareup.retrofit2:converter-gson:2.9.0"
+            ],
+            gson: "com.google.code.gson:gson:2.8.6",
+            stetho:"com.facebook.stetho:stetho-okhttp3:1.5.1"
+
+    ]
+}

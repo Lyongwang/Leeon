@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+
+ext {
+    POM_ARTIFACT_ID = 'baseres'
+}
+
+//apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/leeon_library.gradle'
+apply from: '../config/leeon_library.gradle'
+
+android {
+    defaultConfig {
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

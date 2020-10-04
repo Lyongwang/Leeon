@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+ext {
+    POM_ARTIFACT_ID = 'net'
+}
+
+apply from: '../config/leeon_library.gradle'
+apply from: '../config/leeon_net.gradle'
+
+android {
+    defaultConfig {
+        manifestPlaceholders = [BundleReferenceName : "com.github.lib.net"]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def business = NET.values()
+    business.each {
+        if (it instanceof Map) {
+            println "it.values --->" + it.values()
+            api it.values()
+        } else {
+            println "it --->" + it
+            api it
+        }
+    }
+}

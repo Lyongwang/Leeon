@@ -6,7 +6,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.github.loginlib.view.activity.LoginActivity;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author lxiansheng
@@ -23,12 +26,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         initView();
 
     }
 
     private void initView() {
+        tvFirstPage.setOnClickListener((view) -> {
+            LoginActivity.start(MainActivity.this);
+        });
+
 //        vpMain.setAdapter(new FragmentPagerAdapter() {
 //            @Override
 //            public Fragment getItem(int position) {
