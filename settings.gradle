@@ -1,3 +1,5 @@
 include ':app', ':common', ':gradleconfig', ':loginlib', ':personalcenter'
 include ':LProcessor'
 include ':LAnnotation'
+include ':baseres'
+include ':net'
