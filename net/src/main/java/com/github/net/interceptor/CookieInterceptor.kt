@@ -1,5 +1,8 @@
 package com.github.net.interceptor
 
+import com.github.net.OkHttpWrapper
+import okhttp3.Headers
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -10,6 +13,9 @@ import okhttp3.Response
  */
 class CookieInterceptor:Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = chain.request()
+        val response = chain.proceed(request)
+        OkHttpWrapper.saveCookies(request.url, response.headers)
+        return response
     }
 }
