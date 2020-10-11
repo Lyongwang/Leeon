@@ -2,10 +2,9 @@ package com.github.net
 
 import android.app.Application
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.facebook.stetho.server.http.HttpHeaders
 import com.github.net.interceptor.CookieInterceptor
-import okhttp3.ConnectionPool
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import okhttp3.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -43,6 +42,11 @@ class OkHttpWrapper {
 
 
 
+        }
+
+        fun saveCookies(url: HttpUrl, headers: Headers) {
+            val cookies = headers.values("Set-Cookie")
+//            if ()
         }
     }
 }
