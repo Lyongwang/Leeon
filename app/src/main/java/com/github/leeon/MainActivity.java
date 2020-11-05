@@ -1,11 +1,13 @@
 package com.github.leeon;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.github.leeon.widget.SrcScrollFrameLayout;
 import com.github.loginlib.view.activity.LoginActivity;
 
 import butterknife.BindView;
@@ -37,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
             LoginActivity.start(MainActivity.this);
         });
 
-//        vpMain.setAdapter(new FragmentPagerAdapter() {
+        SrcScrollFrameLayout srcLayout = findViewById(R.id.src_layout);
+        srcLayout.startScroll();
+        //        vpMain.setAdapter(new FragmentPagerAdapter() {
 //            @Override
 //            public Fragment getItem(int position) {
 //                return null;
