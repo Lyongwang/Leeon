@@ -7,7 +7,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+<<<<<<< HEAD
 import com.github.leeon.widget.SrcScrollFrameLayout;
+=======
+import com.github.annotation.service.Router;
+import com.github.common.router.RouterConstans;
+>>>>>>> net
 import com.github.loginlib.view.activity.LoginActivity;
 
 import butterknife.BindView;
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         tvFirstPage.setOnClickListener((view) -> {
             LoginActivity.start(MainActivity.this);
         });
+        tvMyPage.setOnClickListener((view) -> {
+            callMyMethod();
+        });
 
         SrcScrollFrameLayout srcLayout = findViewById(R.id.src_layout);
         srcLayout.startScroll();
@@ -52,5 +60,16 @@ public class MainActivity extends AppCompatActivity {
 //                return 0;
 //            }
 //        });
+    }
+
+    private void callMyMethod() {
+        int result = Router.service(RouterConstans.Service.personcenter)
+                .callMethod("getUserId")
+//                .addParam("key", 1)
+                //                .addParam("key2", "value1")
+//                .addParam("key1", "value1")
+                //                .addParam("key3", "value1")
+                .execute();
+        System.out.println("return ----> " + result);
     }
 }

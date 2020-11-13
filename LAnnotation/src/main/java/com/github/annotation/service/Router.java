@@ -19,14 +19,14 @@ public class Router {
         return new Builder(serviceSchema);
     }
 
-    private static class Builder {
+    public static class Builder {
         private final String serviceSchema;
 
         private String methodName;
 
         private Map<String, Object> params = new HashMap<>();
 
-        Builder(String serviceSchema) {
+        private Builder(String serviceSchema) {
             this.serviceSchema = serviceSchema;
         }
 

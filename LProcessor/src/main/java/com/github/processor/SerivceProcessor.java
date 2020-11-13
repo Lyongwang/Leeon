@@ -15,6 +15,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,6 +90,7 @@ public class SerivceProcessor extends AbstractProcessor {
         ClassName methodInfoClassName = ClassName.get(MethodInfo.class);
         ClassName routerTableClassName = ClassName.get(RouterTable.class);
         for (Element classElement : serviceClassElements) {
+            Set<String> methodNameCache = new HashSet<>();
             String packageName = classElement.getEnclosingElement().toString();
             String className = classElement.getSimpleName().toString();
             ServiceRouter serviceClass = classElement.getAnnotation(ServiceRouter.class);
@@ -107,12 +109,17 @@ public class SerivceProcessor extends AbstractProcessor {
                     methodName = methodElement.getSimpleName().toString();
                 }
                 String methodObject = methodName.concat(METHOD_OBJ);
-                registServiceMethodBuilder
-                        .addStatement("$T $L = new $T()", methodInfoClassName, methodObject, methodInfoClassName)
-                        .addStatement("$L.setClassName($S)", methodObject, packageName.concat(".").concat(className))
-                        .addStatement("$L.setMethodName($S)", methodObject, methodName)
-                        .addStatement("$T.putMethod($S, $L)", routerTableClassName,
-                                getMethodScheme(serviceClassName, methodName), methodObject);
+                if (!methodNameCache.contains(methodObject)) {
+                    methodNameCache.add(methodObject);
+                    registServiceMethodBuilder
+                            .addStatement("$T $L = new $T()", methodInfoClassName, methodObject, methodInfoClassName)
+                            .addStatement("$L.setClassName($S)", methodObject, packageName.concat(".").concat(className))
+                            .addStatement("$L.setMethodName($S)", methodObject, methodName)
+                            .addStatement("$T.putMethod($S, $L)", routerTableClassName,
+                                    getMethodScheme(serviceClassName, methodName), methodObject);
+                } else {
+                    LogUtil.log(mMessager, "repeat method --> " + methodObject);
+                }
             }
 
             TypeSpec typeSpec = TypeSpec.classBuilder(ClassName.get(packageName, getClassName(classElement)))
