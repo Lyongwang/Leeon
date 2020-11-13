@@ -28,7 +28,7 @@ ext {
             // 第三方相关依赖
             THIRDLIB:[
                 NET : [
-                    okHttp3: "com.squareup.okhttp3:okhttp:4.2.2"
+                    okHttp4: "com.squareup.okhttp3:okhttp:4.9.0"
                 ]
                 , RX : [
                     rxandroid : "io.reactivex.rxjava3:rxandroid:3.0.0",
