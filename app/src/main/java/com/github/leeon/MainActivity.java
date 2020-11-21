@@ -1,18 +1,14 @@
 package com.github.leeon;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-<<<<<<< HEAD
-import com.github.leeon.widget.SrcScrollFrameLayout;
-=======
 import com.github.annotation.service.Router;
 import com.github.common.router.RouterConstans;
->>>>>>> net
+import com.github.leeon.widget.SrcScrollFrameLayout;
 import com.github.loginlib.view.activity.LoginActivity;
 
 import butterknife.BindView;

@@ -1,9 +1,6 @@
 package com.github.net.retrofit
 
 import android.content.Context
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,9 +18,6 @@ class RetrofitWrapper private constructor() {
             .build()
 
     companion object{
-        internal fun init(context: Context){
-            OkHttpWrapper.instance().init(context)
-        }
         internal fun instance() = Holder.instance
     }
 
@@ -31,9 +25,18 @@ class RetrofitWrapper private constructor() {
         val instance: RetrofitWrapper = RetrofitWrapper()
     }
 
-    internal fun <T> getRequest(clazz:Class<T>): T {
+    /**
+     * 获取一个requestService
+     */
+    internal fun <T> getService(clazz:Class<T>): T {
         return mRetrofit.create(clazz)
     }
 
+    /**
+     * 初始化OkHttp
+     */
+    internal fun init(context: Context){
+        OkHttpWrapper.instance().init(context)
+    }
 
 }
