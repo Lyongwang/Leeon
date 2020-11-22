@@ -2,6 +2,7 @@ package com.github.common.bundle;
 
 
 import com.github.annotation.bundle.BundleData;
+import com.github.common.event.EventCenter;
 
 /**
  * Created by Lyongwang on 2019-11-11 16: 14.
@@ -35,6 +36,7 @@ public class BundleProxy {
     public void onCreate() {
         if (iBundle != null) {
             iBundle.onCreate();
+            EventCenter.regist(iBundle);
             state = BundleState.START;
         }
     }
@@ -42,6 +44,7 @@ public class BundleProxy {
     public void onDestory() {
         if (iBundle != null) {
             iBundle.onDestory();
+            EventCenter.unRegist(iBundle);
             state = BundleState.STOP;
         }
     }

@@ -6,7 +6,7 @@ ext {
             // 业务相关依赖
             BUSINESS:[
                     baseres: "com.leeon:baseres:v_202009091632_3a63455-SNAPSHOT", // 基础资源库
-                    net:"com.leeon:net:v_202011211424_44c3e50-SNAPSHOT" // 网络请求库
+                    net:"com.leeon:net:v_202011211745_8492595-SNAPSHOT" // 网络请求库
             ],
 
             // 系统相关依赖

@@ -71,11 +71,11 @@ class OkHttpWrapper private constructor(){
     }
 
     companion object{
-        fun instance() = Holder().instance
+        internal val instance = Holder.holder
     }
 
-    private class Holder{
-        val instance = OkHttpWrapper()
+    private object Holder{
+        val holder = OkHttpWrapper()
     }
 
     fun addInterceptors(interceptors: List<Interceptor>): OkHttpWrapper?{

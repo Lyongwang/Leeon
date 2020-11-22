@@ -2,7 +2,7 @@ package com.github.net.retrofit
 
 import android.content.Context
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
@@ -11,18 +11,15 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Email: liyongwang@yiche.com
  */
 class RetrofitWrapper private constructor() {
-    private val mRetrofit:Retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .client(OkHttpWrapper.instance().client())
-            .build()
+    private val baseUrl: String = "https://appapi-gw.yiche.com/"
+    private lateinit var mRetrofit:Retrofit
 
     companion object{
-        internal fun instance() = Holder.instance
+        internal val instance = Holder.instance
     }
 
     private object Holder{
-        val instance: RetrofitWrapper = RetrofitWrapper()
+        val instance = RetrofitWrapper()
     }
 
     /**
@@ -36,7 +33,13 @@ class RetrofitWrapper private constructor() {
      * 初始化OkHttp
      */
     internal fun init(context: Context){
-        OkHttpWrapper.instance().init(context)
+        OkHttpWrapper.instance.init(context)
+        mRetrofit = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(OkHttpWrapper.instance.client())
+                .baseUrl(baseUrl)
+                .build()
     }
 
 }

@@ -1,7 +1,5 @@
 package com.github.loginlib.bean
 
-import androidx.annotation.IntegerRes
-
 /**
  * Created by Lyongwang on 2020/9/10 15: 55.
  *

@@ -23,9 +23,8 @@ dependencies {
     implementation LIB.common
     implementation LIB.login
     implementation LIB.personalcenter
-//    implementation project(':common')
-//    implementation project(':loginlib')
-//    implementation project(':personalcenter')
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     annotationProcessor LIB.processor
 }

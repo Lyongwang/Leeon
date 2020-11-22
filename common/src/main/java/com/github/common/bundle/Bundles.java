@@ -130,6 +130,7 @@ public class Bundles {
     private Object reflexClass(String className) {
         try {
             Class<?> aClass = Class.forName(className);
+
             try {
                 return aClass.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {

@@ -7,6 +7,10 @@ package com.github.annotation.bundle;
  * 组件的唯一标识
  */
 public enum BundleCode {
+    /**common模块*/
+    COMMON(1),
+    /**APP壳*/
+    APP(2),
     /**个人中心模块*/
     PERSONCENTER(10),
     /**登录模块*/

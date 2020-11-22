@@ -1,7 +1,5 @@
 package com.github.loginlib.view.contract
 
-import com.github.loginlib.bean.LoginType
-
 /**
  * Created by Lyongwang on 2020/9/10 15: 47.
  *
@@ -9,11 +7,21 @@ import com.github.loginlib.bean.LoginType
  */
 interface LoginContract {
     interface IPresenter {
-        fun login(loginType: LoginType)
+        fun loginByName(userName: String, pwd: String)
+        fun loginByDynamicPwd(phoneNum: String, dynamicPwd: String)
 
     }
 
     interface IView{
+        /**
+         * 登录成功
+         */
+        fun loginSuccess()
+
+        /**
+         * 登录失败
+         */
+        fun loginError()
 
     }
 }

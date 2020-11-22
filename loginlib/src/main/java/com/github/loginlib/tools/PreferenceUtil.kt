@@ -14,11 +14,27 @@ import kotlin.reflect.KProperty
  */
 
 object PreferenceUtil{
+    var phoneNum: String by PreferenceDelegates.any("")
+    var userName: String by PreferenceDelegates.any("")
+    var avatar: String by PreferenceDelegates.any("")
+
+    /**
+     * 输入的账号
+     */
     var LOGIN_INPUT_ACOUNT_NAME by PreferenceDelegates.any("")
-    var age by PreferenceDelegates.any(0)
+
+    /**
+     * 用户id
+     */
+    var userId by PreferenceDelegates.any(-1)
+
+    /**
+     * 用户昵称
+     */
+    var nickname by PreferenceDelegates.any("")
 }
 
-private object PreferenceDelegates{
+object PreferenceDelegates{
     private const val TAG = "PreferenceDelegates"
     private const val SP_NAME = "leeon_preferences"
     /**

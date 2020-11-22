@@ -1,5 +1,7 @@
 package com.github.common.bundle;
 
+import com.github.common.event.eventor.IEventor;
+
 /**
  * Created by Lyongwang on 2020-02-14 11: 56.
  * <p>
@@ -17,4 +19,9 @@ public interface IBundle {
      */
     void onDestory();
 
+    /**
+     * 信息变更事件
+     * @param iEventor
+     */
+    void onEvent(IEventor iEventor);
 }

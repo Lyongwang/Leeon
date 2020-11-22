@@ -7,6 +7,9 @@ import com.github.net.bean.HttpResult
 import com.github.net.retrofit.RetrofitWrapper
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by Lyongwang on 2020/11/21 14: 03.
@@ -19,14 +22,14 @@ class NetWork {
          * 网络库初始化
          */
         fun init(context: Context) {
-            RetrofitWrapper.instance().init(context)
+            RetrofitWrapper.instance.init(context)
         }
 
         /**
          * 获取网络请求服务
          */
         fun <T> getService(tClass: Class<T>): T {
-            return RetrofitWrapper.instance().getService(tClass)
+            return RetrofitWrapper.instance.getService(tClass)
         }
 
         /**
@@ -40,25 +43,28 @@ class NetWork {
 
 class Request<T>(service: Observable<HttpResult<T>>) {
     private var mService = service
-    private lateinit var mCallBack: INetWorkCallBack
+    private lateinit var mCallBack: INetWorkCallBack<T>
 
-    fun callBack(callback: INetWorkCallBack): Request<T> {
+    fun callBack(callback: INetWorkCallBack<T>): Request<T> {
         mCallBack = callback
         return this
     }
 
     @SuppressLint("CheckResult")
     fun execute() {
-        mService.subscribe({
-            mCallBack.onSuccess(it)
-        }, {
-            mCallBack.onError(it)
-        })
+        GlobalScope.launch(Dispatchers.IO) {
+            mService.subscribe({
+                GlobalScope.launch(Dispatchers.Main) { mCallBack.onSuccess(it) }
+            }, {
+                GlobalScope.launch(Dispatchers.Main) { mCallBack.onError(it) }
+
+            })
+        }
     }
 }
 
-interface INetWorkCallBack {
-    fun <T> onSuccess(result: HttpResult<T>)
+interface INetWorkCallBack<T> {
+    fun onSuccess(response: HttpResult<T>)
 
     fun onError(throwable: Throwable)
 }

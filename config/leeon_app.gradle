@@ -7,6 +7,8 @@ android {
                 includeCompileClasspath = true
             }
         }
+
+        multiDexEnabled true
     }
     signingConfigs {
         release {

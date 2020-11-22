@@ -19,14 +19,14 @@ import kotlinx.android.synthetic.main.login_activity.*
  *
  * Email: liyongwang@yiche.com
  */
-class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
+class LoginActivity : LoginContract.IView, BaseActivity(), View.OnClickListener {
     private var mPhoneNum: String = ""
     private var mDynamicNum: String = ""
     private var mUsername: CharSequence = ""
-    private val mPresenter: LoginPresenter by lazy { LoginPresenter(this) }
+    private lateinit var mPresenter: LoginContract.IPresenter
     private var mLoginType: LoginType = LoginType.YICHE_LOGIN
 
-    companion object LoginStart{
+    companion object LoginStart {
         @JvmStatic
         @JvmOverloads
         fun start(activity: Activity) {
@@ -38,6 +38,7 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+        mPresenter = LoginPresenter(this)
         showLogin()
         initView()
     }
@@ -45,7 +46,7 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
     private fun initView() {
         btn_login.setOnClickListener(this)
         tv_change_login.setOnClickListener(this)
-        et_dynamic_pwd.addTextChangedListener(object:TextWatcher{
+        et_dynamic_pwd.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 setLoginEnable()
             }
@@ -66,7 +67,7 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
     }
 
     private fun showLogin() {
-        if(mLoginType === LoginType.YICHE_LOGIN){
+        if (mLoginType === LoginType.YICHE_LOGIN) {
             showUserNameLogin(false)
         } else {
             showDynamicLogin(false)
@@ -94,7 +95,7 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
         et_dynamic_pwd.filters = dynamicInputFilter
         btn_get_msg_code.visibility = View.VISIBLE
         tv_forget_pwd.visibility = View.GONE
-        if (mPhoneNum.isEmpty()){
+        if (mPhoneNum.isEmpty()) {
             et_phone_number.isFocusable = true
             et_phone_number.requestFocus()
         } else {
@@ -138,9 +139,9 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.tv_change_login -> {
-                if (mLoginType === LoginType.YICHE_LOGIN){
+                if (mLoginType === LoginType.YICHE_LOGIN) {
                     showDynamicLogin(true)
                     mLoginType = LoginType.DYNAMIC_LOGIN
                 } else {
@@ -148,15 +149,31 @@ class LoginActivity:LoginContract.IView, BaseActivity(), View.OnClickListener {
                     mLoginType = LoginType.YICHE_LOGIN
                 }
             }
-            R.id.btn_login -> mPresenter.login(mLoginType)
+            R.id.btn_login -> {
+                if (mLoginType == LoginType.YICHE_LOGIN){
+                    mPresenter.loginByName(et_phone_number.text.trim().toString(), et_dynamic_pwd.text.trim().toString())
+                } else if (mLoginType == LoginType.DYNAMIC_LOGIN) {
+                    mPresenter.loginByDynamicPwd(et_phone_number.text.trim().toString(), et_dynamic_pwd.text.trim().toString())
+                }
+            }
         }
+    }
+
+    override fun loginSuccess() {
+        PreferenceUtil.LOGIN_INPUT_ACOUNT_NAME = et_phone_number.text.trim().toString()
+        finish()
+
+    }
+
+    override fun loginError() {
+        TODO("Not yet implemented")
     }
 }
 
-class EmptyInputFilter:InputFilter {
+class EmptyInputFilter : InputFilter {
     override fun filter(p0: CharSequence?, p1: Int, p2: Int, p3: Spanned?, p4: Int, p5: Int): CharSequence? {
-        var result:CharSequence? = null
-        if (p0 == " "){
+        var result: CharSequence? = null
+        if (p0 == " ") {
             result = ""
         }
         return result
