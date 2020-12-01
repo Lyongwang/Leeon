@@ -85,32 +85,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BaseDexClassLoader classLoader = (BaseDexClassLoader) getClassLoader();
-        PathClassLoader fixClassLoader = new PathClassLoader(getFilesDir().getPath() + File.separator + fileName, null);
-        Class loaderClass = BaseDexClassLoader.class;
-
-        try {
-            Field pathListField = loaderClass.getDeclaredField("pathList");
-            pathListField.setAccessible(true);
-            // getClassLoader().pathList
-            Object loaderPathList = pathListField.get(classLoader);
-            // fixClassLoader.pathList
-            final Object fixPathList = pathListField.get(fixClassLoader);
-
-            Class pathListClass = loaderPathList.getClass();
-
-            Field dexElementsField = pathListClass.getField("dexElements");
-            dexElementsField.setAccessible(true);
-            // fixClassLoader.pathList.dexElements
-            Object fixDexElements = dexElementsField.get(fixPathList);
-            // classLoader.pathList.dexElements = fixClassLoader.pathList.dexElements;
-            dexElementsField.set(loaderPathList, fixDexElements);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-
-
     }
 
     private void callMyMethod() {
