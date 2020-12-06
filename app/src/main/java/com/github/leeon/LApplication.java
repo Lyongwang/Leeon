@@ -1,11 +1,13 @@
 package com.github.leeon;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.github.common.CommonInit;
 import com.github.common.base.BaseApplication;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 import dalvik.system.BaseDexClassLoader;
@@ -17,6 +19,8 @@ import dalvik.system.PathClassLoader;
  * Email: liyongwang@yiche.com
  */
 public class LApplication extends BaseApplication {
+
+    private static final String TAG = "LApplication";
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -43,13 +47,27 @@ public class LApplication extends BaseApplication {
 
                 Class pathListClass = loaderPathList.getClass();
 
-                Field dexElementsField = pathListClass.getField("dexElements");
+                Field dexElementsField = pathListClass.getDeclaredField("dexElements");
                 dexElementsField.setAccessible(true);
                 // fixClassLoader.pathList.dexElements
                 Object fixDexElements = dexElementsField.get(fixPathList);
+                // getClassLoader.pathList.dexElements
+                Object loaderDexElements = dexElementsField.get(loaderPathList);
                 // 1 全量替换 classLoader.pathList.dexElements = fixClassLoader.pathList.dexElements;
 //                dexElementsField.set(loaderPathList, fixDexElements);
-                // 2 增加dex
+                // 2 增量添加dex
+                int loaderLength = Array.getLength(loaderDexElements);
+                int fixLength = Array.getLength(fixDexElements);
+                Log.i(TAG, "loaderPathList: loaderLength" + loaderLength + " fixLength: " + fixLength);
+                Object newDexElements = Array.newInstance(loaderDexElements.getClass().getComponentType(), loaderLength + fixLength);
+                for (int i = 0; i < fixLength; i++){
+                    Array.set(newDexElements, i, Array.get(fixDexElements, i));
+                }
+                for (int i=fixLength; i < loaderLength + fixLength; i++){
+                    Array.set(newDexElements, i, Array.get(loaderDexElements, i - fixLength));
+                }
+                dexElementsField.set(loaderPathList, newDexElements);
+
 //                classLoader.pathList.dexElements[i+1] = classLoader.pathList.dexElements[i];
 //                classLoader.pathList.dexElements[0] = fixClassLoader.pathList.dexElements;
 

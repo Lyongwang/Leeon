@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.github.annotation.TextUtils;
 import com.github.annotation.service.Router;
 import com.github.common.router.RouterConstans;
+import com.github.leeon.plugin.TestPluginUtils;
 import com.github.leeon.widget.SrcScrollFrameLayout;
 import com.github.loginlib.view.activity.LoginActivity;
 
@@ -31,6 +32,7 @@ import okio.Source;
  * @author lxiansheng
  */
 public class MainActivity extends AppCompatActivity {
+    private String fixFileName = "fix.png";
     @BindView(R.id.tv_first)
     TextView  tvFirstPage;
     @BindView(R.id.tv_my)
@@ -41,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
     Button    buttonShowText;
     @BindView(R.id.btn_show_plugin)
     Button    buttonShowPlugin;
-    @BindView(R.id.btn_hot_fix)
-    Button    buttonHotFix;
+    @BindView(R.id.btn_remove_fix)
+    Button    buttonRemoveHotFix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         buttonShowPlugin.setOnClickListener(view -> {
             tvFirstPage.setText(getTextFromPlugin());
         });
-        buttonHotFix.setOnClickListener(view -> {
 
-        });
 
         SrcScrollFrameLayout srcLayout = findViewById(R.id.src_layout);
         srcLayout.startScroll();
@@ -88,18 +88,29 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         findViewById(R.id.btn_add_app).setOnClickListener(view -> {
-            tvFirstPage.setText("fix");
+            tvFirstPage.setText(TestPluginUtils.getStr());
         });
 
         findViewById(R.id.btn_add_fix).setOnClickListener(view -> {
             loadClassesFromFix();
         });
+
+        findViewById(R.id.btn_remove_fix).setOnClickListener(view -> {
+            removeFixFile();
+        });
+    }
+
+    private void removeFixFile() {
+        final File file = new File(getFilesDir(), fixFileName);
+        if (file.exists()){
+            file.delete();
+        }
+        System.exit(0);
     }
 
     private void loadClassesFromFix() {
-        String fileName = "fix.png";
-        try(Source source = Okio.source(getAssets().open(fileName));
-            Sink sink = Okio.sink(new File(getFilesDir(), fileName));
+        try(Source source = Okio.source(getAssets().open(fixFileName));
+            Sink sink = Okio.sink(new File(getFilesDir(), fixFileName));
             BufferedSink buffer = Okio.buffer(sink)){
             buffer.writeAll(source);
         } catch (IOException e) {
