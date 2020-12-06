@@ -6,6 +6,9 @@ apply from: '../config/base_config.gradle'
 apply from: '../config/maven_push.gradle'
 apply from: '../config/business_dep.gradle'
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 dependencies {
     annotationProcessor LIB.processor
 }

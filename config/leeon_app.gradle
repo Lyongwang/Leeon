@@ -1,5 +1,8 @@
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
 apply from: '../config/base_config.gradle'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 android {
     defaultConfig {
         javaCompileOptions {
