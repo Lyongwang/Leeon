@@ -36,6 +36,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="加载主app"
+        android:id="@+id/btn_add_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        app:layout_constraintStart_toEndOf="@id/btn_add_app"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="加载hotfix"
+        android:id="@+id/btn_add_fix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        app:layout_constraintStart_toEndOf="@id/btn_add_fix"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="删除hotfix"
+        android:id="@+id/btn_remove_fix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
     <TextView
         android:id="@+id/tv_first"
@@ -63,22 +87,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_first"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_first" />
-
-    <Button
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="加载主app"
-        android:id="@+id/btn_add_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="加载hotfix"
-        android:id="@+id/btn_add_fix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <View
         android:id="@+id/view_bottom"
