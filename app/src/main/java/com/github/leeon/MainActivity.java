@@ -1,6 +1,7 @@
 package com.github.leeon;
 
 import android.os.Bundle;
+import android.os.Trace;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;

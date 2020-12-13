@@ -5,35 +5,47 @@ apply plugin: 'com.android.application'
 apply from: '../config/leeon_app.gradle'
 apply from: '../config/business_dep.gradle'
 
-/**
- * 定义插件类
- */
-class Leeon implements Plugin<Project>{
-    @Override
-    void apply(Project target) {
-        /**
-         * 执行 apply Plugin: Leeon时执行
-         * leeon 配置的名称
-         */
-        def extension = target.extensions.create("leeon", LeeonExtension)
-        /**
-         * 执行完所有配置后执行
-         */
-        target.afterEvaluate {
-            println "hello ${extension.user}"
-        }
-    }
-}
-/**
- * 插件配置类
- */
-class LeeonExtension{
-    def user = "leeon"
-}
+///**
+// * 定义插件类
+// */
+//class Leeon implements Plugin<Project>{
+//    @Override
+//    void apply(Project target) {
+//        /**
+//         * 执行 apply Plugin: Leeon时执行
+//         * leeon 配置的名称
+//         */
+//        def extension = target.extensions.create("leeon", LeeonExtension)
+//        /**
+//         * 执行完所有配置后执行
+//         */
+//        target.afterEvaluate {
+//            println "hello ${extension.user}"
+//        }
+//    }
+//}
+///**
+// * 插件配置类
+// */
+//class LeeonExtension{
+//    def user = "leeon"
+//}
+///**
+// * 应用插件
+// */
+//apply plugin: Leeon
+///**
+// * 配置Extension
+// */
+//leeon{
+//    // setUser("congcong")
+//    user 'congcong'
+//}
+
 /**
  * 应用插件
  */
-apply plugin: Leeon
+apply plugin: 'com.plugin.leeon'
 /**
  * 配置Extension
  */
