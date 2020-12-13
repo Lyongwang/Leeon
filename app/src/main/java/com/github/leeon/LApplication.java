@@ -1,6 +1,7 @@
 package com.github.leeon;
 
 import android.content.Context;
+import android.os.Trace;
 import android.util.Log;
 
 import com.github.common.CommonInit;
@@ -81,6 +82,6 @@ public class LApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         CommonInit.init(this, BuildConfig.DEBUG);
-//        Bundles.getInstance().init();
+        //        Bundles.getInstance().init();
     }
 }

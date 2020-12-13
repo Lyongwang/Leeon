@@ -1,5 +1,7 @@
 package com.github.leeon.utils;
 
+import android.os.Trace;
+
 import java.util.Collection;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Collection;
  */
 public class Collections {
     public static boolean isEmpty(Collection collection){
-        return collection == null || collection.isEmpty();
+        final boolean b = collection == null || collection.isEmpty();
+        return b;
     }
 }
