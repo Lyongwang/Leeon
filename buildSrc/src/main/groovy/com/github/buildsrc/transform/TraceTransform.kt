@@ -22,24 +22,31 @@ import java.util.zip.ZipEntry
  * Email: liyongwang@yiche.com
  */
 class TraceTransform: Transform() {
+    // transfrom名字会在依赖项目的task other 中生成对应的transformClassesWithTrace任务
     override fun getName(): String {
         return "trace"
     }
 
+    // 处理那些类型
     override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
         return TransformManager.CONTENT_CLASS
     }
 
+    // 是否支持增量编译
     override fun isIncremental(): Boolean {
         return false
     }
 
+    // 处理范围
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
         return TransformManager.SCOPE_FULL_PROJECT
     }
 
+    // 处理干预过程的方法
     override fun transform(transformInvocation: TransformInvocation) {
+        // 父类方法为空实现
 //        super.transform(transformInvocation)
+        // 输入内容为包含所有class文件的文件夹或jar文件
         transformInvocation.inputs.forEach { transformInput ->
             transformInput.directoryInputs.forEach { dirInput ->
                 // 操作文件
@@ -68,14 +75,16 @@ class TraceTransform: Transform() {
             JarOutputStream(FileOutputStream(tempFile)).use {jarOutputStream ->
                 // 读取jar文件中的文件
                 jarFile.entries().iterator().forEach {jarEntry ->
+                    // 使用zip压缩读取jar文件中的文件类
                     val zipEntry = ZipEntry(jarEntry.name)
                     jarFile.getInputStream(zipEntry).use {inputStream ->
-                        // class文件才操作
+                        // 只处理class文件
                         if (jarEntry.name.endsWith(".class")){
                             jarOutputStream.putNextEntry(zipEntry)
                             val classReader = ClassReader(IOUtils.toByteArray(inputStream))
                             val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
                             classReader.accept(ClassTraceVisistor(classWriter), ClassWriter.COMPUTE_FRAMES)
+                            // 将处理好的class文件写入到临时jar文件中
                             jarOutputStream.write(classWriter.toByteArray())
                         } else {
                             // 非class文件直接写入临时jar文件
@@ -89,12 +98,14 @@ class TraceTransform: Transform() {
             }
         }
 
+        // 目标文件目录
         val dest = outputProvider.getContentLocation(
                 jarInput.file.nameWithoutExtension + DigestUtils.md5Hex(jarInput.file.absolutePath),
                 jarInput.contentTypes,
                 jarInput.scopes,
                 Format.JAR)
 
+        // 将临时文件拷贝到目标文件
         FileUtils.copyFile(tempFile, dest)
 
     }

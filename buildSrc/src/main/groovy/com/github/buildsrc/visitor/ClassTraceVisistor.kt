@@ -17,6 +17,7 @@ class ClassTraceVisistor(classVisitor: ClassVisitor?) : ClassVisitor(Opcodes.ASM
     // 访问class文件时被调用
     override fun visit(version: Int, access: Int, name: String, signature: String?, superName: String?, interfaces: Array<out String>?) {
         super.visit(version, access, name, signature, superName, interfaces)
+        // 获取class文件名称
         this.className = name
     }
 

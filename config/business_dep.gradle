@@ -1,6 +1,6 @@
 ext {
     LIB = [
-            personalcenter: 'com.leeon:personalcenter:v_202011221546_8492595-SNAPSHOT' // 业务层
+            personalcenter: 'com.leeon:personalcenter:v_202012201203_68d1e36-SNAPSHOT' // 业务层
             , login: 'com.leeon:login:v_202011221557_8492595-SNAPSHOT'
 
             ,common: 'com.leeon:common:v_202011221551_8492595-SNAPSHOT' // common层
