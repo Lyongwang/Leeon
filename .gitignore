@@ -8,3 +8,5 @@
 .externalNativeBuild
 leeonkey.jks
 gradle.properties
+
+gradle/*

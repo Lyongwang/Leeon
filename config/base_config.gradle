@@ -11,4 +11,21 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["moduleName": project.name]
+            }
+        }
+    }
+}
+
+dependencies {
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 }

@@ -1,0 +1,24 @@
+ext {
+    NET = [
+
+            okHttp: [
+                    okhttp:"com.squareup.okhttp3:okhttp:4.9.0",
+                    oklogging:"com.squareup.okhttp3:logging-interceptor:4.9.0"
+            ],
+            retrofit:[
+                    converter:"com.squareup.retrofit2:converter-gson:2.9.0",
+                    retrofit:"com.squareup.retrofit2:retrofit:2.9.0",
+                    adapterRxjava:"com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+            ],
+            kotlinx:[core:"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1",
+                     android:"org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+            ],
+            rxjava:[
+                    rxjava:"io.reactivex.rxjava2:rxjava:2.2.20",
+                    rxandroid:"io.reactivex.rxjava2:rxandroid:2.1.1"
+            ],
+            gson: "com.google.code.gson:gson:2.8.6",
+            stetho:"com.facebook.stetho:stetho-okhttp3:1.5.1"
+
+    ]
+}

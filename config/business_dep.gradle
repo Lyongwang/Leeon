@@ -1,6 +1,14 @@
 ext {
     LIB = [
-            common: 'com.leeon:common:v_201912271144_4757c52'
-            , user: 'com.leeon:user:v_20191227111_4757c52'
+            personalcenter: 'com.leeon:personalcenter:v_202012201203_68d1e36-SNAPSHOT' // 业务层
+            , login: 'com.leeon:login:v_202011221557_8492595-SNAPSHOT'
+
+            ,common: 'com.leeon:common:v_202011221551_8492595-SNAPSHOT' // common层
+
+//            , baseres: 'com.leeon:baseres:v_202009091632_3a63455-SNAPSHOT' // 底层 移动到common依赖里面
+
+            , processor: 'com.leeon:bundle-processor:v_202011221527_8492595-SNAPSHOT' // 注解处理器
+            , annotation: 'com.leeon:bundle-annotation:v_202011221526_8492595-SNAPSHOT'
+
     ]
 }

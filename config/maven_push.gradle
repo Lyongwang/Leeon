@@ -6,8 +6,8 @@ ext {
     BUILD_VERSION = '' // 上传版本号
     timeFormat = '' // 时间戳 yyyyMMddHHmm
     GROUP = 'com.leeon' // MAVEN group
-    RELEASE_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/release' // 这里 指定生成的Maven路径
-    SNAPSHOT_LOCAL_REPO_URL = 'file:///Users/lxiansheng/github/maven/snapshot' // 这里 指定生成的Maven路径
+    RELEASE_LOCAL_REPO_URL = 'file://' + user_dir + '/github/maven/release' // 这里 指定生成的Maven路径
+    SNAPSHOT_LOCAL_REPO_URL = 'file://' + user_dir + '/github/maven/snapshot' // 这里 指定生成的Maven路径
     isRelease = false
 }
 
@@ -16,13 +16,13 @@ ext {
  */
 uploadArchives {
     doFirst {
-        if (!checkGitCommit()) {
+        println "isRelease : " + isRelease
+        if (isRelease && !checkGitCommit()) {
             throw new RuntimeException("please commit first!")
         }
-        if (!checkGitSync()) {
+        if (isRelease && !checkGitSync()) {
             throw new RuntimeException("please sync with remote first!")
         }
-        println "isRelease : " + isRelease
         BUILD_VERSION = new StringBuilder().append("v_").append(getTime())
                 .append("_").append(getShortCommitId())
                 .append(isRelease ? "" : "-SNAPSHOT")
@@ -38,7 +38,7 @@ uploadArchives {
             }*/
         }
         def depVersion = GROUP + ":" + POM_ARTIFACT_ID + ":" + BUILD_VERSION
-        logger.error(depVersion)
+        logger.error("version : " + depVersion)
         exec{
             commandLine 'sh', '-c', "./../gradlew :${project.name}:getBusinessDepData -Dversion=${depVersion} -Dpomid=${POM_ARTIFACT_ID}"
         }

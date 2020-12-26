@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="login_phone_number_length">11</integer>
+    <integer name="login_dynamic_pwd_length">6</integer>
+</resources>

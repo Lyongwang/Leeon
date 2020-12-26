@@ -1,0 +1,37 @@
+apply from: '../config/leeon_dep.gradle'
+apply from: '../config/leeon_library.gradle'
+
+dependencies {
+    def business = DEP.BUSINESS.values()
+    business.each {
+        if (it instanceof Map) {
+            println "it.values --->" + it.values()
+            api it.values()
+        } else {
+            println "it --->" + it
+            api it
+        }
+    }
+
+    def android = DEP.ANDROID.values()
+    android.each {
+        if (it instanceof Map) {
+            println "it.values --->" + it.values()
+            api it.values()
+        } else {
+            println "it --->" + it
+            api it
+        }
+    }
+
+    def third = DEP.THIRDLIB.values()
+    third.each {
+        if (it instanceof Map) {
+            println "it.values --->" + it.values()
+            api it.values()
+        } else {
+            println "it --->" + it
+            api it
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="login_c_black">#000000</color>
+    <color name="login_c_eeeeee">#eeeeee</color>
+    <color name="login_c_3377ff">#3377ff</color>
+    <color name="login_c_646464">#646464</color>
+    <color name="login_c_7fffffff">#7fffffff</color>
+    <color name="login_c_ff4b3b">#ff4b3b</color>
+</resources>

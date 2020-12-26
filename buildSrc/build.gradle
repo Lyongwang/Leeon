@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
+    }
+}
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    // javasist
+//    implementation 'org.javasist:javassist:3.25.0-GA'
+    // ASM 相关
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-util:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+
+    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
+
+
+    // classPath依赖 只能在gradle中使用
+    // implementation依赖 在java类中使用
+    implementation 'com.android.tools.build:gradle:3.4.0'
+}

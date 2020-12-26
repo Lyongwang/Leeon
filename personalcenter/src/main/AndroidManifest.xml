@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.personalcenter">
+
+    <application>
+        <activity
+            android:name=".PersonalActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="${BundleReferenceName}"
+            android:value="IBundle" />
+    </application>
+</manifest>

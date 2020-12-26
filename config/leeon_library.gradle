@@ -2,17 +2,13 @@
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/base_config.gradle'
 //apply from: 'https://raw.githubusercontent.com/Lyongwang/Leeon/master/config/maven_push.gradle'
 
-apply from: '../config/leeon_dep.gradle'
 apply from: '../config/base_config.gradle'
 apply from: '../config/maven_push.gradle'
+apply from: '../config/business_dep.gradle'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
-    def support = DEP.SUPPORT.values()
-    support.each {
-        if (it instanceof Map) {
-            api it.values()
-        } else {
-            api it
-        }
-    }
+    annotationProcessor LIB.processor
 }

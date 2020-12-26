@@ -1,2 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.common" />
+    package="com.github.common" >
+    <application>
+
+<!--    noHistory = true 当页面处于后台时会销毁页面-->
+        <activity android:name=".router.SchemeActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
+            <intent-filter >
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="harsh.leeon"/>
+            </intent-filter>
+
+        </activity>
+    </application>
+</manifest>
