@@ -45,7 +45,7 @@ apply from: '../config/business_dep.gradle'
 /**
  * 应用插件
  */
-//apply plugin: 'com.plugin.trace'
+apply plugin: "com.plugin.trace"
 //apply plugin: 'com.plugin.leeon'
 /**
  * 配置Extension

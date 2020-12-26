@@ -21,7 +21,7 @@ class MethodTraceVisitor(api: Int, methodVisitor: MethodVisitor1, access: Int, n
     override fun onMethodEnter() {
         super.onMethodEnter()
         // 插入统计耗时方法 如何知道插入内容  1 写原生代码 -> 2 编译生成class文件 -> 3 code ASM ByteCode viewer/clases右键 -> 4 ASMMiFied
-        mv.visitLdcInsn("$className${this.name}")
+        mv.visitLdcInsn("$className#${this.name}()")
         mv.visitMethodInsn(Opcodes.INVOKESTATIC, "android/os/Trace", "beginSection", "(Ljava/lang/String;)V", false)
     }
 

@@ -25,9 +25,10 @@ class ClassTraceVisistor(classVisitor: ClassVisitor?) : ClassVisitor(Opcodes.ASM
     // 访问方法时被调用
     override fun visitMethod(access: Int, name: String?, descriptor: String?, signature: String?, exceptions: Array<out String>?): MethodVisitor {
         // 不进行插装的类
-        if (className == "asss") {
+        if (className.contains("DigestUtils")) {
             return super.visitMethod(access, name, descriptor, signature, exceptions)
         } else {
+            println("${name} <- visitMethod $className")
             return MethodTraceVisitor(
                     Opcodes.ASM7,
                     super.visitMethod(access, name, descriptor, signature, exceptions),

@@ -5,9 +5,8 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.github.buildsrc.visitor.ClassTraceVisistor
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
-import org.gradle.internal.impldep.org.apache.commons.codec.digest.DigestUtils
+import org.apache.commons.codec.digest.DigestUtils
 import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassReader.EXPAND_FRAMES
 import org.objectweb.asm.ClassWriter
 import java.io.File
 import java.io.FileInputStream
@@ -63,7 +62,7 @@ class TraceTransform: Transform() {
     private fun traceJarFiles(jarInput: JarInput, outputProvider: TransformOutputProvider) {
         // 如果不是jar结尾的 META-INF 中的文件等 不处理
         if (!jarInput.file.absolutePath.endsWith(".jar")){
-            println(jarInput.file.absolutePath)
+            println( "${jarInput.file.absolutePath} <--jarInput.file.absolutePath.endsWith")
             return
         }
         // 不能直接对jar文件进行操作  创建临时文件后替换原有文件
@@ -83,12 +82,12 @@ class TraceTransform: Transform() {
                             jarOutputStream.putNextEntry(zipEntry)
                             val classReader = ClassReader(IOUtils.toByteArray(inputStream))
                             val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                            classReader.accept(ClassTraceVisistor(classWriter), ClassWriter.COMPUTE_FRAMES)
+                            classReader.accept(ClassTraceVisistor(classWriter), ClassReader.EXPAND_FRAMES)
                             // 将处理好的class文件写入到临时jar文件中
                             jarOutputStream.write(classWriter.toByteArray())
                         } else {
                             // 非class文件直接写入临时jar文件
-                            println("${jarEntry.name} <- jarEntry.name")
+//                            println("${jarEntry.name} <- jarEntry.name")
                             jarOutputStream.putNextEntry(zipEntry)
                             jarOutputStream.write(IOUtils.toByteArray(inputStream))
                         }
@@ -113,19 +112,23 @@ class TraceTransform: Transform() {
     private fun traceDirFiles(dirInput: DirectoryInput, outputProvider: TransformOutputProvider) {
         // 遍历所有文件
         dirInput.file.walkTopDown()
-                .filter { it.isFile }
+                .filter { it.isFile && it.exists()  }
                 .forEach {file ->
                     //  创建文件流 use会自动关闭流的操作符
                     FileInputStream(file).use { fis ->
+//                        println("${file} - ${file.isFile} <- traceDirFiles")
                         // ClassReader&ClassWriter 是org.ow2.asm:asm:7.1 中的
                         val classReader = ClassReader(fis)
-                        val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
-                        // 类访问者对象
-                        val classTraceVisistor = ClassTraceVisistor(classWriter)
-                        // 接收数据插入内容
-                        classReader.accept(classTraceVisistor, EXPAND_FRAMES)
+                        // TODO classReader item == 0 会报错 检查过滤掉是否有问题
+                        if (classReader.itemCount > 0){
+                            val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
+                            // 类访问者对象
+                            val classTraceVisistor = ClassTraceVisistor(classWriter)
+                            // 接收数据插入内容
+                            classReader.accept(classTraceVisistor, ClassReader.EXPAND_FRAMES)
 
-                        file.writeBytes(classWriter.toByteArray())
+                            file.writeBytes(classWriter.toByteArray())
+                        }
                     }
                 }
 
